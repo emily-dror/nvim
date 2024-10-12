@@ -1,0 +1,161 @@
+-- Config nvim's status line
+
+local separators = { left = "", right = "" }
+
+local stbufnr = function()
+    return vim.api.nvim_win_get_buf(vim.g.statusline_winid or 0)
+end
+
+local modes = {
+    ["n"] = { "NORMAL", "Normal" },
+    ["no"] = { "NORMAL (no)", "Normal" },
+    ["nov"] = { "NORMAL (nov)", "Normal" },
+    ["noV"] = { "NORMAL (noV)", "Normal" },
+    ["noCTRL-V"] = { "NORMAL", "Normal" },
+    ["niI"] = { "NORMAL i", "Normal" },
+    ["niR"] = { "NORMAL r", "Normal" },
+    ["niV"] = { "NORMAL v", "Normal" },
+    ["nt"] = { "NTERMINAL", "NTerminal" },
+    ["ntT"] = { "NTERMINAL (ntT)", "NTerminal" },
+
+    ["v"] = { "VISUAL", "Visual" },
+    ["vs"] = { "V-CHAR (Ctrl O)", "Visual" },
+    ["V"] = { "V-LINE", "Visual" },
+    ["Vs"] = { "V-LINE", "Visual" },
+    [""] = { "V-BLOCK", "Visual" },
+
+    ["i"] = { "INSERT", "Insert" },
+    ["ic"] = { "INSERT (completion)", "Insert" },
+    ["ix"] = { "INSERT completion", "Insert" },
+
+    ["t"] = { "TERMINAL", "Terminal" },
+
+    ["R"] = { "REPLACE", "Replace" },
+    ["Rc"] = { "REPLACE (Rc)", "Replace" },
+    ["Rx"] = { "REPLACEa (Rx)", "Replace" },
+    ["Rv"] = { "V-REPLACE", "Replace" },
+    ["Rvc"] = { "V-REPLACE (Rvc)", "Replace" },
+    ["Rvx"] = { "V-REPLACE (Rvx)", "Replace" },
+
+    ["s"] = { "SELECT", "Select" },
+    ["S"] = { "S-LINE", "Select" },
+    [""] = { "S-BLOCK", "Select" },
+    ["c"] = { "COMMAND", "Command" },
+    ["cv"] = { "COMMAND", "Command" },
+    ["ce"] = { "COMMAND", "Command" },
+    ["cr"] = { "COMMAND", "Command" },
+    ["r"] = { "PROMPT", "Confirm" },
+    ["rm"] = { "MORE", "Confirm" },
+    ["r?"] = { "CONFIRM", "Confirm" },
+    ["x"] = { "CONFIRM", "Confirm" },
+    ["!"] = { "SHELL", "Terminal" },
+}
+
+local statusline_modules = {}
+
+statusline_modules["%="] = "%="
+
+statusline_modules.mode = function()
+    local m = vim.api.nvim_get_mode().mode
+
+    local current_mode = "%#StatusLine" .. modes[m][2] .. "Mode#  " .. modes[m][1]
+    local mode_sep = "%#StatusLine" .. modes[m][2].. "ModeSep# " .. separators.right
+    return current_mode .. mode_sep .. "%#StatusLineEmptySpace#"
+end
+
+
+statusline_modules.file = function()
+    local icon = "󰈚"
+    local path = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
+    local name = (path == "" and "Empty ") or path:match "([^\\]+)[/\\]*$"
+
+    if name ~= "Empty " then
+        local devicons_present, devicons = pcall(require, "nvim-web-devicons")
+
+        if devicons_present then
+          local ft_icon = devicons.get_icon(name)
+          icon = (ft_icon ~= nil and ft_icon) or icon
+        end
+    end
+
+    return "%#StatusLineFile#   " .. icon .. " " .. name .. " " .. "%#StatusLineFileSep#"
+    .. separators.right .. " %#StatusLineEmptySpace# "
+end
+
+statusline_modules.git = function()
+    local git_branch = require("user.utils").git_branch()
+    if git_branch then
+        return "%#StatusLineGit#  " .. git_branch .. "%#StatusLineEmptySpace#"
+    end
+    return "%#StatusLineEmptySpace#"
+end
+
+statusline_modules.cwd = function()
+    local icon = "%#StatusLineCwdIcon#" .. " 󰉋 "
+    local name = vim.uv.cwd()
+    name = "%#StatusLineCwd#" .. " " .. (name:match "([^/\\]+)[/\\]*$" or name) .. " %* "
+    return (vim.o.columns > 85 and ("%#StatusLineCwdSep#" .. separators.left .. icon .. name)) or ""
+end
+
+statusline_modules.cursor = function()
+    return "%#StatusLineCursorSep#" .. separators.left ..
+    "%#StatusLineCursorIcon#  %#StatusLineCursor# %l:%c %p%% "
+end
+
+statusline_modules.diagnostics = function()
+    return ""
+end
+
+-- Colors
+vim.api.nvim_set_hl(0, "StatusLineMode", { fg = "#ff9e64", bg = "#1f2335", bold = true })
+vim.api.nvim_set_hl(0, "StatusLineModeSep", { fg = "#1f2335", bg = "#1f2335", bold = true })
+vim.api.nvim_set_hl(0, "StatusLineEmptySpace", { fg = "#2E3440", bg = "#2E3440", bold = true })
+
+vim.api.nvim_set_hl(0, "StatusLineGit", { fg = "#AAAAAA", bg = "#2E3440" , bold = true })
+
+vim.api.nvim_set_hl(0, "StatusLineFile", { fg = "#AAAAAA", bg = "#303030" , bold = true })
+vim.api.nvim_set_hl(0, "StatusLineFileSep", { bg = "#2E3440", fg = "#303030" , bold = true })
+
+vim.api.nvim_set_hl(0, "StatusLineCursor", { fg = "#A3BE8C", bg = "#2E3440", bold = true })
+vim.api.nvim_set_hl(0, "StatusLineCursorSep", { fg = "#A3BE8C", bg = "#2E3440", bold = true })
+vim.api.nvim_set_hl(0, "StatusLineCursorIcon", { fg = "#2E3440", bg = "#A3BE8C", bold = true })
+
+vim.api.nvim_set_hl(0, "StatusLineCwd", { fg = "#AAAAAA", bg = "#2E3440", bold = true })
+vim.api.nvim_set_hl(0, "StatusLineCwdSep", { fg = "#E06C75", bg = "#2E3440", bold = true })
+vim.api.nvim_set_hl(0, "StatusLineCwdIcon", { fg = "#2E3440", bg = "#E06C75", bold = true })
+
+vim.api.nvim_set_hl(0, "StatusLineNormalMode", { fg = "#2E3440", bg = "#81A1C1" })
+vim.api.nvim_set_hl(0, "StatusLineInsertMode", { fg = "#2E3440", bg = "#B48EAD" })
+vim.api.nvim_set_hl(0, "StatusLineVisualMode", { fg = "#2E3440", bg = "#D08770" })
+vim.api.nvim_set_hl(0, "StatusLineTerminalMode", { fg = "#2E3440", bg = "#A3BE8C" })
+vim.api.nvim_set_hl(0, "StatusLineNTerminalMode", { fg = "#2E3440", bg = "#EBCB8B" })
+vim.api.nvim_set_hl(0, "StatusLineReplaceMode", { fg = "#2E3440", bg = "#88C0D0" })
+vim.api.nvim_set_hl(0, "StatusLineConfirmMode", { fg = "#2E3440", bg = "#5E81AC" })
+vim.api.nvim_set_hl(0, "StatusLineCommandMode", { fg = "#2E3440", bg = "#A3BE8C" })
+vim.api.nvim_set_hl(0, "StatusLineSelectMode", { fg = "#2E3440", bg = "#5E81AC" })
+
+vim.api.nvim_set_hl(0, "StatusLineNormalModeSep", { fg = "#81A1C1", bg = "#81A1C1" })
+vim.api.nvim_set_hl(0, "StatusLineInsertModeSep", { fg = "#B48EAD", bg = "#B48EAD" })
+vim.api.nvim_set_hl(0, "StatusLineVisualModeSep", { fg = "#D08770", bg = "#D08770" })
+vim.api.nvim_set_hl(0, "StatusLineTerminalModeSep", { fg = "#A3BE8C", bg = "#A3BE8C" })
+vim.api.nvim_set_hl(0, "StatusLineNTerminalModeSep", { fg = "#EBCB8B", bg = "#EBCB8B" })
+vim.api.nvim_set_hl(0, "StatusLineReplaceModeSep", { fg = "#88C0D0", bg = "#88C0D0" })
+vim.api.nvim_set_hl(0, "StatusLineConfirmModeSep", { fg = "#5E81AC", bg = "#5E81AC" })
+vim.api.nvim_set_hl(0, "StatusLineCommandModeSep", { fg = "#A3BE8C", bg = "#A3BE8C" })
+vim.api.nvim_set_hl(0, "StatusLineSelectModeSep", { fg = "#5E81AC", bg = "#5E81AC" })
+
+-- Construct the statusline
+return function()
+    local statusline = {}
+    local order = {
+        "mode", "file", "git", "%=", "%=", "diagnostics", "cwd", "cursor"
+    }
+
+    for _, component in ipairs(order) do
+        local module = statusline_modules[component]
+        module = type(module) == "string" and module or module()
+        table.insert(statusline, module)
+    end
+
+    return table.concat(statusline)
+end
