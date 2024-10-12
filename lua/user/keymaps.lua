@@ -40,13 +40,13 @@ vim.keymap.set("n", "P", "p", options("Paste after cursor"))
 vim.keymap.set("v", "<", "<gv", options("Stay in indent mode"))
 vim.keymap.set("v", ">", ">gv", options("Stay in indent mode"))
 vim.keymap.set("v", "p", '"_dP', options("Paste on top of text"))
-vim.keymap.set("v", "<S-k>", ":m .-2<CR>==", options("Move text up"))
-vim.keymap.set("v", "<S-j>", ":m .+1<CR>==", options("Move text down"))
+vim.keymap.set("v", "<S-Up>", ":m .-2<CR>==", options("Move text up"))
+vim.keymap.set("v", "<S-Down>", ":m .+1<CR>==", options("Move text down"))
 vim.keymap.set("v", "d", '"_d', options("Delete text without copying"))
 
 -- Visual Block --
-vim.keymap.set("x", "K", ":move '<-2<CR>gv-gv", options("Move text up"))
-vim.keymap.set("x", "J", ":move '>+1<CR>gv-gv", options("Move text down"))
+vim.keymap.set("x", "<S-Up>", ":move '<-2<CR>gv-gv", options("Move text up"))
+vim.keymap.set("x", "<S-Down>", ":move '>+1<CR>gv-gv", options("Move text down"))
 
 -- Terminal --
 vim.keymap.set("t", "<C-h>", "<C-\\><C-N><C-w>h", { silent = true })
