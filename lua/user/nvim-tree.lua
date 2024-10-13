@@ -40,7 +40,17 @@ require('nvim-tree').setup {
     },
     update_focused_file = {
         enable = true,       -- Enable the feature
+    },
+    filesystem_watchers = {
+        enable = false,  -- disables automatic file system watching
     }
 }
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "NvimTree",
+  callback = function()
+      vim.api.nvim_buf_set_keymap(0, 'n', '<leader>rr', '<cmd>NvimTreeRefresh<CR>', { noremap = true, silent = true })
+  end
+})
 
 require("user.keymaps").tree_keymaps()
