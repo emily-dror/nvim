@@ -34,7 +34,7 @@ end
 
 M.bclose = function()
     local current_buf = vim.api.nvim_get_current_buf()
-    vim.cmd("bnext")
+    vim.cmd("bprevious")
     vim.api.nvim_buf_delete(current_buf, { force = false })
 end
 

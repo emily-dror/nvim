@@ -36,6 +36,12 @@ vim.keymap.set("n", "§", "<C-w>w", options("Switch windows"))
 vim.keymap.set("n", "p", "P", options("Paste before cursor"))
 vim.keymap.set("n", "P", "p", options("Paste after cursor"))
 
+vim.keymap.set("n", "`", "~", options(""))
+vim.keymap.set("n", "~", "`", options(""))
+
+vim.keymap.set("n", "]q", "<cmd>cn<CR>", { desc = "Next quicklist match" })
+vim.keymap.set("n", "[q", "<cmd>cp<CR>", { desc = "Previous quicklist match" })
+
 -- Visual --
 vim.keymap.set("v", "<", "<gv", options("Stay in indent mode"))
 vim.keymap.set("v", ">", ">gv", options("Stay in indent mode"))
@@ -59,9 +65,9 @@ local utils = require("user.utils")
 vim.keymap.set("n", "<leader>aa", utils.emily, { desc = "Appa, yip yip!!" })
 vim.keymap.set("n", "<leader>at", utils.toggle_alpha, { desc = "Toggle Alpha screen" })
 
+vim.keymap.set("n", "<C-x>", utils.bclose, { desc = "Buffer close" })
 vim.keymap.set("n", "<tab>", utils.bnext, { desc = "Buffer goto next" })
 vim.keymap.set("n", "<S-tab>", utils.bprevious, { desc = "Buffer goto prev" })
-vim.keymap.set("n", "<leader>x", utils.bclose, { desc = "Buffer close" })
 vim.keymap.set("n", "<leader>n", utils.relative_numbering, { desc = "Toggle relative numbering" })
 
 vim.keymap.set("n", "<leader>cfn", utils.copy_filename, { desc = "Copy filename" })
