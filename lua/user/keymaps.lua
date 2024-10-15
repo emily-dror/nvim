@@ -25,6 +25,7 @@ vim.keymap.set("n", "<S-C-Left>", ":vertical resize +2<CR>", options("Resize win
 vim.keymap.set("n", "<S-C-Right>", ":vertical resize -2<CR>", options("Resize window right"))
 
 vim.keymap.set("n", ";", ":", { desc = "Enter command mode", silent = false })
+vim.keymap.set("n", ":", ";", { desc = "", silent = false })
 vim.keymap.set('n', '<leader>ro', ':%s///g<Left><Left>',
     { desc = "Replace", noremap = true, silent = false }
 )
@@ -113,6 +114,7 @@ M.lsp_keymaps = function(bufnr)
     buf_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
     buf_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
     buf_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+    buf_keymap(bufnr, "n", "gs", "<cmd>ClangdSwitchSourceHeader<CR>", opts)
     buf_keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
     buf_keymap(bufnr, "n", "<leader>lc", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
     buf_keymap(bufnr, "n", "<leader>ll", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
