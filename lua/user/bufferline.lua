@@ -30,5 +30,15 @@ bufferline.setup {
     separator_style = "thin", -- | "thick" | "thin" | { 'any', 'any' },
     enforce_regular_tabs = true,
     always_show_bufferline = true,
+    custom_filter = function(buf_number)
+      -- Get the buffer name
+      local buf_name = vim.fn.bufname(buf_number)
+
+      -- Only show buffers that have a name
+      if buf_name == "" then
+        return false
+      end
+      return true
+    end,
   },
 }

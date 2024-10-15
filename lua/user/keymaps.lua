@@ -40,8 +40,8 @@ vim.keymap.set("n", "P", "p", options("Paste after cursor"))
 vim.keymap.set("n", "`", "~", options(""))
 vim.keymap.set("n", "~", "`", options(""))
 
-vim.keymap.set("n", "]q", "<cmd>cn<CR>", { desc = "Next quicklist match" })
-vim.keymap.set("n", "[q", "<cmd>cp<CR>", { desc = "Previous quicklist match" })
+vim.keymap.set("n", "]]", "<cmd>cn<CR>", { desc = "Next quicklist match" })
+vim.keymap.set("n", "[[", "<cmd>cp<CR>", { desc = "Previous quicklist match" })
 
 -- Visual --
 vim.keymap.set("v", "<", "<gv", options("Stay in indent mode"))
@@ -54,12 +54,6 @@ vim.keymap.set("v", "d", '"_d', options("Delete text without copying"))
 -- Visual Block --
 vim.keymap.set("x", "<S-Up>", ":move '<-2<CR>gv-gv", options("Move text up"))
 vim.keymap.set("x", "<S-Down>", ":move '>+1<CR>gv-gv", options("Move text down"))
-
--- Terminal --
-vim.keymap.set("t", "<C-h>", "<C-\\><C-N><C-w>h", { silent = true })
-vim.keymap.set("t", "<C-j>", "<C-\\><C-N><C-w>j", { silent = true })
-vim.keymap.set("t", "<C-k>", "<C-\\><C-N><C-w>k", { silent = true })
-vim.keymap.set("t", "<C-l>", "<C-\\><C-N><C-w>l", { silent = true })
 
 -- Utilities
 local utils = require("user.utils")

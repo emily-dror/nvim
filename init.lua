@@ -22,3 +22,6 @@ vim.cmd [[
 require('nvim-autopairs').setup{}
 vim.o.statusline = "%!v:lua.require('user.statusline')()"
 
+vim.api.nvim_create_user_command('RemoveEntry', function(opts)
+   vim.cmd("let qfl = getqflist() | call remove(qfl, " .. opts.args .. ") | call setqflist(qfl)")
+end, { nargs = 1 })
