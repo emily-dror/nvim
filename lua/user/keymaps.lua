@@ -40,8 +40,33 @@ vim.keymap.set("n", "P", "p", options("Paste after cursor"))
 vim.keymap.set("n", "`", "~", options(""))
 vim.keymap.set("n", "~", "`", options(""))
 
+-- QuickList
 vim.keymap.set("n", "]q", "<cmd>cn<CR>", { desc = "Next quicklist match" })
 vim.keymap.set("n", "[q", "<cmd>cp<CR>", { desc = "Previous quicklist match" })
+
+function delete_quickfix_entry()
+    vim.cmd([[
+        let curqfidx = line('.') - 1
+        let qfl = getqflist()
+        call remove(qfl, curqfidx)
+        call setqflist(qfl)
+        let new_idx = curqfidx
+        if new_idx >= len(qfl)
+            let new_idx = len(qfl)
+        endif
+        if new_idx >= 0
+            exec new_idx + 1
+        endif
+    ]])
+end
+
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'qf',
+    callback = function()
+        vim.api.nvim_buf_set_keymap(0, 'n', 'dd', '<cmd>lua delete_quickfix_entry()<CR>', { noremap = true, silent = true })
+    end
+})
+
 
 -- Visual --
 vim.keymap.set("v", "<", "<gv", options("Stay in indent mode"))
