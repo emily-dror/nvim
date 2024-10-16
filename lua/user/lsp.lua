@@ -61,6 +61,29 @@ vim.diagnostic.config({
     },
 })
 
+require('lspconfig').lua_ls.setup {
+    capabilities = require('cmp_nvim_lsp').default_capabilities(),
+    on_attach = function(client, bufnr)
+        lsp_highlight_document(client)
+    end,
+    settings = {
+        Lua = {
+            runtime = {
+                version = 'LuaJIT',
+            },
+            diagnostics = {
+                globals = {'vim'},
+            },
+            workspace = {
+                library = vim.api.nvim_get_runtime_file("", true),
+            },
+            telemetry = {
+                enable = false,
+            },
+        },
+    },
+}
+
 require("null-ls").setup({
     sources = {
         require("null-ls").builtins.diagnostics.pylint.with({

@@ -62,6 +62,8 @@ vim.cmd [[colorscheme vscode]]
 require('vscode').setup({
   transparent = true,        -- Set to true if you want transparent background
   italic_comments = true,     -- Enable italic comments
+  underline_links = true,
+  disable_nvimtree_bg = true,
 })
 
 vim.opt.foldlevel = 99
