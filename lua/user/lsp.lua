@@ -37,13 +37,14 @@ require('lspconfig').clangd.setup{
     )
 }
 
-require('lspconfig').pylsp.setup{
-    capabilities = require('cmp_nvim_lsp').default_capabilities(),
-    on_attach = function(client, bufnr)
+require('lspconfig').pyright.setup {
+  capabilities = require('cmp_nvim_lsp').default_capabilities(),
+  on_attach = function(client, bufnr)
+    -- Your custom keybindings or settings
         lsp_highlight_document(client)
-    end,
-    cmd = {"pyright"},
-    filetypes = { "py" },
+  end,
+  filetypes = { "python" },  -- Ensure only Python files are targeted
+  root_dir = require('lspconfig').util.root_pattern(".git", "setup.py", "pyproject.toml"),
 }
 
 vim.diagnostic.config({

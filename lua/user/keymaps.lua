@@ -40,8 +40,8 @@ vim.keymap.set("n", "P", "p", options("Paste after cursor"))
 vim.keymap.set("n", "`", "~", options(""))
 vim.keymap.set("n", "~", "`", options(""))
 
-vim.keymap.set("n", "]]", "<cmd>cn<CR>", { desc = "Next quicklist match" })
-vim.keymap.set("n", "[[", "<cmd>cp<CR>", { desc = "Previous quicklist match" })
+vim.keymap.set("n", "]q", "<cmd>cn<CR>", { desc = "Next quicklist match" })
+vim.keymap.set("n", "[q", "<cmd>cp<CR>", { desc = "Previous quicklist match" })
 
 -- Visual --
 vim.keymap.set("v", "<", "<gv", options("Stay in indent mode"))
