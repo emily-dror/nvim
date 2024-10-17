@@ -101,7 +101,9 @@ end
 
 M.copy_relative_path = function()
     -- "+" is the register for the system clipboard
-    local file_name = vim.fn.expand("%")
+    local path = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
+    local file_name = (path == "" and "Empty ") or path:match "([^\\]+)[/\\]*$"
+
     vim.fn.setreg("+", file_name)
     print("Copied relative path to clipboard: " .. file_name)
 end
