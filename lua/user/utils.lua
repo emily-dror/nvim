@@ -291,4 +291,29 @@ M.mark_help = function()
     write_popup(content)
 end
 
+M.macro_help = function()
+    local content = {
+        "Vim Macros",
+        "",
+        "Recording a Macro:",
+        "  q{register} - Start recording a macro into a register (e.g., 'qa').",
+        "  q           - Stop recording the macro.",
+        "",
+        "Appending to a Macro:",
+        "  qA          - Append to an existing macro in register 'a' (e.g., 'qA').",
+        "",
+        "Playing Back a Macro:",
+        "  @{register} - Play the macro stored in the specified register (e.g., '@a').",
+        "  @@          - Replay the last played macro.",
+        "",
+        "Repeating a Macro:",
+        "  {count}@{register} - Play the macro {count} times (e.g., '5@a').",
+        "",
+        "Macros are stored in the following registers:",
+        "  a-z - Named registers to store macros.",
+        "  @   - Register that holds the last played macro.",
+    }
+    write_popup(content)
+end
+
 return M

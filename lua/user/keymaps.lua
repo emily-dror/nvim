@@ -89,7 +89,8 @@ vim.keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<CR>", { desc = "tel
 vim.keymap.set("n", "<leader>gm", "<cmd>Telescope git_commits<CR>", { desc = "Telescope git commits" })
 
 -- Cheatsheets
-vim.keymap.set('n', '<leader>hm', utils.mark_help, options("Marks cheatsheet"))
+vim.keymap.set('n', '<leader>hm', utils.macro_help, options("Macro cheatsheet"))
+vim.keymap.set('n', '<leader>hk', utils.mark_help, options("Marks cheatsheet"))
 vim.keymap.set('n', '<leader>hr', utils.reg_help, options("Registers cheatsheet"))
 
 -- LSP
