@@ -89,12 +89,8 @@ vim.keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<CR>", { desc = "tel
 vim.keymap.set("n", "<leader>gm", "<cmd>Telescope git_commits<CR>", { desc = "Telescope git commits" })
 
 -- Cheatsheets
-vim.keymap.set('n', '<leader>hr', utils.reg_help, { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>hm', utils.mark_help, { noremap = true, silent = true })
-
--- Comment
-vim.keymap.set("n", "<leader>/", "gcc", { desc = "Comment toggle", remap = true })
-vim.keymap.set("v", "<leader>/", "gc", { desc = "Comment toggle", remap = true })
+vim.keymap.set('n', '<leader>hm', utils.mark_help, options("Marks cheatsheet"))
+vim.keymap.set('n', '<leader>hr', utils.reg_help, options("Registers cheatsheet"))
 
 -- LSP
 local opts = { noremap = true, silent = true }
@@ -108,7 +104,8 @@ vim.keymap.set("n", "<leader>lc", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts
 vim.keymap.set("n", "<leader>lo", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 vim.keymap.set("n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
 vim.keymap.set("n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
-
+vim.keymap.set("n", "<leader>/", "gcc", { desc = "Comment toggle", remap = true })
+vim.keymap.set("v", "<leader>/", "gc", { desc = "Comment toggle", remap = true })
 
 local M = {}
 
