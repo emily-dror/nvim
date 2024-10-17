@@ -1,9 +1,53 @@
-local M = {}
 
--- Easter Egg
+function DELETE_QUICKFIX_ENTRY()
+    vim.cmd([[
+        let curqfidx = line('.') - 1
+        let qfl = getqflist()
+        call remove(qfl, curqfidx)
+        call setqflist(qfl)
+        let new_idx = curqfidx
+        if new_idx >= len(qfl)
+            let new_idx = len(qfl)
+        endif
+        if new_idx >= 0
+            exec new_idx + 1
+        endif
+    ]])
+end
+
+local function write_popup(content)
+    local width = 80
+    local height = #content + 2
+    local opts = {
+        relative = 'editor',
+        width = width,
+        height = height,
+        col = (vim.o.columns - width) / 2,
+        row = (vim.o.lines - height) / 2,
+        style = 'minimal',
+        border = 'rounded',
+    }
+
+    -- Create the buffer and the window
+    local buf = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
+    local win = vim.api.nvim_open_win(buf, true, opts)
+
+    -- Optionally, set the buffer to be unmodifiable
+    vim.api.nvim_buf_set_option(buf, 'modifiable', false)
+    vim.api.nvim_buf_set_keymap(
+        buf,
+        'n',
+        '<Esc>',
+        ':lua vim.api.nvim_win_close('..win..', true)<CR>',
+        { noremap = true, silent = true }
+    )
+end
+
+local M = {}
 M.emily = function()
     print("Appa, yip yip!!")
-    ascii_art = {
+    local ascii_art = {
         "⠀⠀⠀⠀⠀⠀⣶⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⡄⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⢀⣿⢿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⣤⣤⣄⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⡇⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⣸⡿⢸⣿⠀⠀⠀⠀⠀⢀⣠⣤⣶⡿⠿⠛⣿⣿⣿⣿⣿⣿⣿⠛⠛⠿⠿⣶⣤⣄⡀⠀⠀⠀⠀⠀⢸⡟⢹⣷⠀⠀⠀⠀⠀⠀",
@@ -32,22 +76,7 @@ M.emily = function()
         "⠀⠀⠀⠀⠀⠀⠀⠈⠻⣷⣤⣝⣏⠈⠙⠛⠉⢻⠉⠀⠈⢧⠀⢈⣿⣿⡇⠀⢰⠋⠀⠉⢹⠉⠛⠛⠉⣨⣏⣡⣴⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠛⠻⢶⣶⣶⣾⣶⣤⣶⡿⠿⠟⠋⠘⠻⠿⠿⣦⣤⣴⣾⣶⣦⣶⠾⠛⠋⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
     }
-
-    local buf = vim.api.nvim_create_buf(false, true)
-
-    -- Create the floating window
-    local win = vim.api.nvim_open_win(buf, true, {
-        relative = "editor",
-        width = math.floor(vim.o.columns * 0.19),
-        height = math.floor(vim.o.lines * 0.4),
-        row = math.floor((vim.o.lines -  math.floor(vim.o.lines * 0.4)) / 2),
-        col = math.floor((vim.o.columns -  math.floor(vim.o.columns * 0.19)) / 2),
-        style = "minimal",
-        border = "rounded",
-    })
-
-    -- Set the output to the buffer
-    vim.api.nvim_buf_set_lines(buf, 0, -1, false, ascii_art)
+    write_popup(ascii_art)
 end
 
 
@@ -212,6 +241,54 @@ M.remove_wl = function()
     vim.cmd([[%s/\(\n\)\+$/\r/]])
     vim.cmd("noh")
     vim.cmd("w")
+end
+
+-- Cheatsheets
+
+M.reg_help = function()
+    local content = {
+        "Vim Registers",
+        "",
+        "\"\" - Unnamed Register: Holds the last yanked or deleted text.",
+        "\"0 - Yank Register: Holds the last yanked text.",
+        "\"1 - Last Delete Register: Stores the most recent deleted text.",
+        "\"2-9 - Previous Delete Registers: Store a history of previous deletions.",
+        "\"a-z - Named Registers: Manually store text with '\"aY', paste with '\"ap'.",
+        "\"+ - System Clipboard: Yank to and paste from the system clipboard.",
+        "\". - Last Insert Register: Holds the last inserted text.",
+        "\"% - Current File Name: Contains the name of the current file.",
+        "\": - Last Command Register: Holds the last command-line command.",
+        "\"= - Expression Register: Evaluate expressions and paste the result.",
+        "\"_ - Black Hole Register: Discard text without saving it to any register."
+    }
+    write_popup(content)
+end
+
+M.mark_help = function()
+    local content = {
+        "Vim Marks",
+        "",
+        "Local Marks (a-z):",
+        "  m{a-z} - Set a mark in the current file.",
+        "  'a     - Jump to the line of mark 'a'.",
+        "  `a     - Jump to the exact position of mark 'a'.",
+        "",
+        "Global Marks (A-Z):",
+        "  m{A-Z} - Set a global mark across files.",
+        "  'A     - Jump to the line of global mark 'A'.",
+        "  `A     - Jump to the exact position of global mark 'A'.",
+        "",
+        "Special Marks:",
+        "  '      - Jump to the line of the last jump.",
+        "  `      - Jump to the exact position of the last jump.",
+        "  `[     - Jump to the start of the previously changed or yanked text.",
+        "  `]     - Jump to the end of the previously changed or yanked text.",
+        "",
+        "Numbered Marks (0-9):",
+        "  Vim automatically sets these marks when switching buffers,",
+        "  allowing you to return to previous files.",
+    }
+    write_popup(content)
 end
 
 return M

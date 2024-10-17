@@ -4,6 +4,10 @@ local options = function(description)
    return { desc = description, noremap = true, silent = true }
 end
 
+local function opts_ns(des)
+   return { desc = des, noremap = true, silent = false }
+end
+
 -- Remap space as leader key
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -18,55 +22,36 @@ vim.keymap.set("", "<Space>", "<Nop>", options("Space"))
 --   command_mode = "c",
 
 -- Normal --
+vim.keymap.set("n", "`", "~", options(""))
+vim.keymap.set("n", "~", "`", options(""))
+vim.keymap.set("n", ":", ";", { silent = false })
+vim.keymap.set("n", ";", ":", { silent = false })
+vim.keymap.set("n", "P", 'p', options("Paste after cursor"))
+vim.keymap.set("n", "p", 'P', options("Paste before cursor"))
+vim.keymap.set("n", "§", "<C-w>w", options("Switch windows"))
+vim.keymap.set("n", "dd", '"_dd', options("Delete text without copying"))
+
 vim.keymap.set("n", "<Esc>", "<cmd>noh<CR>", { desc = "Clear highlights" })
 vim.keymap.set("n", "<S-C-Up>", ":resize -2<CR>", options("Resize window up"))
 vim.keymap.set("n", "<S-C-Down>", ":resize +2<CR>", options("Resize window down"))
 vim.keymap.set("n", "<S-C-Left>", ":vertical resize +2<CR>", options("Resize window left"))
 vim.keymap.set("n", "<S-C-Right>", ":vertical resize -2<CR>", options("Resize window right"))
 
-vim.keymap.set("n", ";", ":", { desc = "Enter command mode", silent = false })
-vim.keymap.set("n", ":", ";", { desc = "", silent = false })
-vim.keymap.set('n', '<leader>ro', ':%s///g<Left><Left>',
-    { desc = "Replace", noremap = true, silent = false }
-)
-vim.keymap.set('v', '<leader>ro', ':s///g<Left><Left>',
-    { desc = "Replace", noremap = true, silent = false }
-)
-vim.keymap.set("n", "dd", '"_dd', options("Delete text without copying"))
-vim.keymap.set("n", "§", "<C-w>w", options("Switch windows"))
-vim.keymap.set("n", "p", "P", options("Paste before cursor"))
-vim.keymap.set("n", "P", "p", options("Paste after cursor"))
-
-vim.keymap.set("n", "`", "~", options(""))
-vim.keymap.set("n", "~", "`", options(""))
+vim.keymap.set('n', '<leader>ro', ':%s///g<Left><Left>', opts_ns("Replace"))
+vim.keymap.set('v', '<leader>ro', ':s///g<Left><Left>', opts_ns("Replace"))
 
 -- QuickList
 vim.keymap.set("n", "]q", "<cmd>cn<CR>", { desc = "Next quicklist match" })
 vim.keymap.set("n", "[q", "<cmd>cp<CR>", { desc = "Previous quicklist match" })
-
-function delete_quickfix_entry()
-    vim.cmd([[
-        let curqfidx = line('.') - 1
-        let qfl = getqflist()
-        call remove(qfl, curqfidx)
-        call setqflist(qfl)
-        let new_idx = curqfidx
-        if new_idx >= len(qfl)
-            let new_idx = len(qfl)
-        endif
-        if new_idx >= 0
-            exec new_idx + 1
-        endif
-    ]])
-end
-
 vim.api.nvim_create_autocmd('FileType', {
     pattern = 'qf',
     callback = function()
-        vim.api.nvim_buf_set_keymap(0, 'n', 'dd', '<cmd>lua delete_quickfix_entry()<CR>', { noremap = true, silent = true })
+        vim.api.nvim_buf_set_keymap(
+            0, 'n', 'dd', '<cmd>lua DELETE_QUICKFIX_ENTRY()<CR>',
+            { noremap = true, silent = true }
+        )
     end
 })
-
 
 -- Visual --
 vim.keymap.set("v", "<", "<gv", options("Stay in indent mode"))
@@ -101,7 +86,11 @@ vim.keymap.set("n", "<leader>ws", utils.toggle_ws, { desc = "Highlight trailing 
 vim.keymap.set("n", "<leader>gd", utils.git_diff, { desc = "Git diff current file" })
 vim.keymap.set("n", "<leader>gb", utils.git_blame, { desc = "Git blame current line" })
 vim.keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<CR>", { desc = "telescope git status" })
-vim.keymap.set("n", "<leader>gm", "<cmd>Telescope git_commits<CR>", { desc = "telescope git commits" })
+vim.keymap.set("n", "<leader>gm", "<cmd>Telescope git_commits<CR>", { desc = "Telescope git commits" })
+
+-- Cheatsheets
+vim.keymap.set('n', '<leader>hr', utils.reg_help, { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>hm', utils.mark_help, { noremap = true, silent = true })
 
 -- Comment
 vim.keymap.set("n", "<leader>/", "gcc", { desc = "Comment toggle", remap = true })
@@ -116,9 +105,7 @@ vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
 vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
 vim.keymap.set("n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 vim.keymap.set("n", "<leader>lc", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-vim.keymap.set("n", "<leader>ll", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 vim.keymap.set("n", "<leader>lo", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-vim.keymap.set("n", "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
 vim.keymap.set("n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
 vim.keymap.set("n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
 
