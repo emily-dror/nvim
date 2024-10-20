@@ -43,6 +43,15 @@ require('nvim-tree').setup {
     },
     filesystem_watchers = {
         enable = false,  -- disables automatic file system watching
+    },
+    git = {
+        enable = false
+    },
+    filters = {
+        custom = { '.git', 'build', '.cache' }  -- Add folders you want to ignore
+    },
+    view = {
+        adaptive_size = true,
     }
 }
 
