@@ -11,6 +11,7 @@ require "user.nvim-tree"
 require "user.which-key"
 require "user.telescope"
 require "user.templates"
+require "user.nvim-window"
 
 vim.cmd [[
     augroup CursorShape
@@ -22,4 +23,6 @@ vim.cmd [[
 -- Additional configurations for plugins can go here as well
 require('nvim-autopairs').setup{}
 vim.o.statusline = "%!v:lua.require('user.statusline')()"
+
+vim.keymap.set("n", "§", ":lua require('user.nvim-window').pick()<CR>", { desc = "window" })
 
