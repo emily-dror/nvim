@@ -68,9 +68,6 @@ return packer.startup(function(use)
 	use 'kyazdani42/nvim-tree.lua'
 	use 'kyazdani42/nvim-web-devicons'
 
-    -- Auto pairs
-    use 'windwp/nvim-autopairs'
-
     -- Treesitter
     use {
         "nvim-treesitter/nvim-treesitter",

@@ -53,6 +53,15 @@ vim.api.nvim_create_autocmd('FileType', {
     end
 })
 
+-- Insert --
+vim.keymap.set("i", '"', '""<Left>', {})
+vim.keymap.set("i", "'", "''<Left>", {})
+vim.keymap.set("i", "`", "``<Left>", {})
+vim.keymap.set("i", "<", "<><Left>", {})
+vim.keymap.set("i", "(", "()<Left>", {})
+vim.keymap.set("i", "{", "{}<Left>", {})
+vim.keymap.set("i", "[", "[]<Left>", {})
+
 -- Visual --
 vim.keymap.set("v", "<", "<gv", options("Stay in indent mode"))
 vim.keymap.set("v", ">", ">gv", options("Stay in indent mode"))
