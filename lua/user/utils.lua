@@ -15,9 +15,9 @@ function DELETE_QUICKFIX_ENTRY()
     ]])
 end
 
-local function write_popup(content)
-    local width = 80
-    local height = #content + 2
+local function write_popup(content, width)
+    width = width or 80
+    local height = #content + 1
     local opts = {
         relative = 'editor',
         width = width,
@@ -76,7 +76,7 @@ M.emily = function()
         "⠀⠀⠀⠀⠀⠀⠀⠈⠻⣷⣤⣝⣏⠈⠙⠛⠉⢻⠉⠀⠈⢧⠀⢈⣿⣿⡇⠀⢰⠋⠀⠉⢹⠉⠛⠛⠉⣨⣏⣡⣴⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠛⠻⢶⣶⣶⣾⣶⣤⣶⡿⠿⠟⠋⠘⠻⠿⠿⣦⣤⣴⣾⣶⣦⣶⠾⠛⠋⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
     }
-    write_popup(ascii_art)
+    write_popup(ascii_art, 51)
 end
 
 
@@ -140,27 +140,34 @@ end
 
 -- Git diff
 M.git_diff = function()
-  local file_path = vim.fn.expand("%")
-  local buf = vim.api.nvim_create_buf(false, true)
+    local file_path = vim.fn.expand("%")
+    local buf = vim.api.nvim_create_buf(false, true)
 
-  -- Create the floating window
-  local win = vim.api.nvim_open_win(buf, true, {
-    relative = "editor",
-    width = math.floor(vim.o.columns * 0.8),
-    height = math.floor(vim.o.lines * 0.8),
-    row = math.floor((vim.o.lines -  math.floor(vim.o.lines * 0.8)) / 2),
-    col = math.floor((vim.o.columns -  math.floor(vim.o.columns * 0.8)) / 2),
-    style = "minimal",
-    border = "rounded",
-  })
+    -- Create the floating window
+    local win = vim.api.nvim_open_win(buf, true, {
+        relative = "editor",
+        width = math.floor(vim.o.columns * 0.8),
+        height = math.floor(vim.o.lines * 0.8),
+        row = math.floor((vim.o.lines -  math.floor(vim.o.lines * 0.8)) / 2),
+        col = math.floor((vim.o.columns -  math.floor(vim.o.columns * 0.8)) / 2),
+        style = "minimal",
+        border = "rounded",
+    })
 
-  -- Run the Git command asynchronously and capture the output
-  local cmd = string.format("git diff HEAD^ -- %s", file_path)
-  local output = vim.fn.systemlist(cmd)
+    -- Run the Git command asynchronously and capture the output
+    local cmd = string.format("git diff HEAD^ -- %s", file_path)
+    local output = vim.fn.systemlist(cmd)
 
-  -- Set the output to the buffer
-  vim.api.nvim_buf_set_lines(buf, 0, -1, false, output)
-  vim.api.nvim_buf_set_option(buf, 'filetype', 'diff')
+    -- Set the output to the buffer
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, output)
+    vim.api.nvim_buf_set_option(buf, 'filetype', 'diff')
+    vim.api.nvim_buf_set_keymap(
+        buf,
+        'n',
+        '<Esc>',
+        ':lua vim.api.nvim_win_close('..win..', true)<CR>',
+        { noremap = true, silent = true }
+    )
 end
 
 -- Git blame current line

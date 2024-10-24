@@ -22,10 +22,10 @@ vim.keymap.set("", "<Space>", "<Nop>", options("Space"))
 --   command_mode = "c",
 
 -- Normal --
-vim.keymap.set("n", "`", "~", options(""))
-vim.keymap.set("n", "~", "`", options(""))
-vim.keymap.set("n", ":", ";", { silent = false })
-vim.keymap.set("n", ";", ":", { silent = false })
+vim.keymap.set("", "`", "~", options(""))
+vim.keymap.set("", "~", "`", options(""))
+vim.keymap.set("", ":", ";", { silent = false })
+vim.keymap.set("", ";", ":", { silent = false })
 vim.keymap.set("n", "P", 'p', options("Paste after cursor"))
 vim.keymap.set("n", "p", 'P', options("Paste before cursor"))
 vim.keymap.set("n", "§", "<C-w>w", options("Switch windows"))
@@ -84,9 +84,9 @@ vim.keymap.set("n", "<tab>", utils.bnext, { desc = "Buffer goto next" })
 vim.keymap.set("n", "<S-tab>", utils.bprevious, { desc = "Buffer goto prev" })
 vim.keymap.set("n", "<leader>n", utils.relative_numbering, { desc = "Toggle relative numbering" })
 
-vim.keymap.set("n", "<leader>cfn", utils.copy_filename, { desc = "Copy filename" })
-vim.keymap.set("n", "<leader>cfp", utils.copy_full_path, { desc = "Copy file full path" })
-vim.keymap.set("n", "<leader>cfr", utils.copy_relative_path, { desc = "Copy file relative path" })
+vim.keymap.set("n", "<leader>cn", utils.copy_filename, { desc = "Copy filename" })
+vim.keymap.set("n", "<leader>cp", utils.copy_full_path, { desc = "Copy file full path" })
+vim.keymap.set("n", "<leader>cr", utils.copy_relative_path, { desc = "Copy file relative path" })
 
 vim.keymap.set("n", "<leader>wl", utils.remove_wl, { desc = "Remove white lines" })
 vim.keymap.set("n", "<leader>ws", utils.toggle_ws, { desc = "Highlight trailing whitespaces" })
