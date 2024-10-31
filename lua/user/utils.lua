@@ -348,10 +348,36 @@ function M.select_session()
             if vim.fn.filereadable(session_file) == 1 then
                 vim.cmd("source " .. session_file)
             else
-                vim.notify("Session not found", vim.log.levels.ERROR)
+                vim.notify(" Session not found", vim.log.levels.ERROR)
             end
         end
     end)
 end
+
+function M.remove_session()
+    local sessions = vim.tbl_map(
+        function(path)
+            return vim.fn.fnamemodify(path, ":t:r")
+        end,
+        vim.fn.globpath(session_dir, "*.vim", false, true)
+    )
+
+    if #sessions == 0 then
+        vim.notify("No sessions found", vim.log.levels.WARN)
+        return
+    end
+
+    vim.ui.select(sessions, { prompt = "Delete session:" }, function(choice)
+        if choice then
+            local session_file = session_dir .. choice .. ".vim"
+            if vim.fn.delete(session_file) == 0 then
+                vim.notify(" Session deleted")
+            else
+                vim.notify(" Failed to delete session: " .. choice, vim.log.levels.WARN)
+            end
+        end
+    end)
+end
+
 
 return M

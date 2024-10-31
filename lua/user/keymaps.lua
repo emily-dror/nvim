@@ -104,6 +104,7 @@ vim.keymap.set('n', '<leader>hr', utils.reg_help, options("Registers cheatsheet"
 
 vim.keymap.set('n', '<leader>ss', utils.save_session, options("Save Session"))
 vim.keymap.set('n', '<leader>sw', utils.select_session, options("Select Session"))
+vim.keymap.set('n', '<leader>sr', utils.remove_session, options("Remove Session"))
 
 -- LSP
 local opts = { noremap = true, silent = true }
