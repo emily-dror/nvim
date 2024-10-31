@@ -79,6 +79,7 @@ return packer.startup(function(use)
 
     -- Git
     use {'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'}
+    use "sindrets/diffview.nvim"
 
     use "folke/which-key.nvim"
     use "lervag/vimtex"

@@ -102,6 +102,9 @@ vim.keymap.set('n', '<leader>hm', utils.macro_help, options("Macro cheatsheet"))
 vim.keymap.set('n', '<leader>hk', utils.mark_help, options("Marks cheatsheet"))
 vim.keymap.set('n', '<leader>hr', utils.reg_help, options("Registers cheatsheet"))
 
+vim.keymap.set('n', '<leader>ss', utils.save_session, options("Save Session"))
+vim.keymap.set('n', '<leader>sw', utils.select_session, options("Select Session"))
+
 -- LSP
 local opts = { noremap = true, silent = true }
 vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)

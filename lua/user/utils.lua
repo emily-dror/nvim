@@ -188,7 +188,7 @@ M.git_blame = function()
     local title = handle:read("*a")
     handle:close()
 
-    local msg = string.format("%s (%s %s) ... copy hash to clipboard? [y/N]", title, author, date)
+    local msg = string.format("%s (%s %s) ... copy hash to clipboard? [y/N] ", title, author, date)
     local input = vim.fn.input(msg)
 
     if input == "y" then
@@ -314,6 +314,44 @@ M.macro_help = function()
         "  @   - Register that holds the last played macro.",
     }
     write_popup(content)
+end
+
+-- Directory to save sessions
+local session_dir = vim.fn.stdpath("data") .. "/sessions/"
+vim.fn.mkdir(session_dir, "p")
+
+-- Save session
+function M.save_session()
+    local name = vim.fn.input("Session name: ")
+    local session_file = session_dir .. name .. ".vim"
+    vim.cmd("mksession! " .. session_file)
+    vim.notify("Session saved as " .. name)
+end
+
+-- Open session selector
+function M.select_session()
+    local sessions = vim.tbl_map(
+        function(path)
+            return vim.fn.fnamemodify(path, ":t:r")
+        end,
+        vim.fn.globpath(session_dir, "*.vim", false, true)
+    )
+
+    if #sessions == 0 then
+        vim.notify("No sessions found", vim.log.levels.WARN)
+        return
+    end
+
+    vim.ui.select(sessions, { prompt = "Select session:" }, function(choice)
+        if choice then
+            local session_file = session_dir .. choice .. ".vim"
+            if vim.fn.filereadable(session_file) == 1 then
+                vim.cmd("source " .. session_file)
+            else
+                vim.notify("Session not found", vim.log.levels.ERROR)
+            end
+        end
+    end)
 end
 
 return M
