@@ -12,6 +12,7 @@ require "user.which-key"
 require "user.telescope"
 require "user.templates"
 require "user.nvim-window"
+require "user.session_manager"
 
 vim.cmd [[
     augroup CursorShape
