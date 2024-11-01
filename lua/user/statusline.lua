@@ -99,7 +99,7 @@ end
 
 statusline_modules.cursor = function()
     return "%#StatusLineCursorSep#" .. separators.left ..
-    "%#StatusLineCursorIcon#  %#StatusLineCursor# %l:%c %p%% "
+    "%#StatusLineCursorIcon#  %#StatusLineCursor# %l:%c | %L "
 end
 
 statusline_modules.diagnostics = function()
