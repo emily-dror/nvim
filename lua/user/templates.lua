@@ -67,6 +67,24 @@ vim.api.nvim_create_autocmd("BufNewFile", {
     end,
 })
 
+-- C files
+vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = "*.c",
+    callback = function()
+        vim.cmd("silent! !clang-format -i %")
+        vim.cmd("edit!")
+    end,
+})
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = "*.cpp",
+    callback = function()
+        vim.cmd("silent! !clang-format -i %")
+        vim.cmd("edit!")
+    end,
+})
+
+
 -- C++ files
 vim.api.nvim_create_autocmd("BufNewFile", {
     pattern = "*.cpp",
@@ -83,3 +101,58 @@ vim.api.nvim_create_autocmd("BufNewFile", {
         )
     end,
 })
+
+-- clang-format files
+vim.api.nvim_create_autocmd("BufNewFile", {
+    pattern = ".clang-format",
+    callback = function()
+        vim.api.nvim_buf_set_lines(
+            0, 0, 0, false, {
+            "---",
+            "BasedOnStyle:  Google",
+            "AccessModifierOffset: -4",
+            "AlignConsecutiveAssignments: true",
+            "AllowShortCaseLabelsOnASingleLine: true",
+            "AllowShortFunctionsOnASingleLine: Inline",
+            "BraceWrapping:",
+            "  AfterClass:      true",
+            "  AfterControlStatement: false",
+            "  AfterEnum:       true",
+            "  AfterFunction:   true",
+            "  AfterNamespace:  false",
+            "  AfterObjCDeclaration: false",
+            "  AfterStruct:     true",
+            "  AfterUnion:      true",
+            "  BeforeCatch:     false",
+            "  BeforeElse:      false",
+            "  IndentBraces:    false",
+            "BreakBeforeBraces: Custom",
+            "BreakBeforeBinaryOperators: All",
+            "BreakConstructorInitializersBeforeComma: true",
+            "BreakInheritanceList: BeforeComma",
+            "ConstructorInitializerAllOnOneLineOrOnePerLine: false",
+            "DerivePointerAlignment: false",
+            "IndentWidth:     4",
+            "IncludeCategories:",
+            "  - Regex:           '^\".*\"'",
+            "    Priority:        1",
+            "  - Regex:           '^<.*\\.h>'",
+            "    Priority:        2",
+            "  - Regex:           '^<.*'",
+            "    Priority:        3",
+            "  - Regex:           '.*'",
+            "    Priority:        4",
+            "PointerAlignment: Right",
+            "SpacesInCStyleCastParentheses: false",
+            "ObjCBlockIndentWidth: 4",
+            "ColumnLimit: 100",
+            "---",
+            "Language:        Cpp",
+            "---",
+            "Language:        ObjC"
+            }
+        )
+    end,
+})
+
+
