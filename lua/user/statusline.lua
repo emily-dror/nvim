@@ -2,10 +2,6 @@
 
 local separators = { left = "", right = "" }
 
-local stbufnr = function()
-    return vim.api.nvim_win_get_buf(vim.g.statusline_winid or 0)
-end
-
 local modes = {
     ["n"] = { "NORMAL", "Normal" },
     ["no"] = { "NORMAL (no)", "Normal" },
