@@ -107,6 +107,8 @@ local manager = require("user.session_manager")
 vim.keymap.set('n', '<leader>ss', manager.save_session, options("Save Session"))
 vim.keymap.set('n', '<leader>sw', manager.show_session_manager, options("Show Session Manager"))
 
+vim.keymap.set("n", "<leader>il", "<cmd>IBLToggle<CR>", { desc = "IBLToggle" })
+
 -- LSP
 local opts = { noremap = true, silent = true }
 vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)

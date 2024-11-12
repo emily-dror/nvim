@@ -16,8 +16,8 @@ require "user.session_manager"
 
 vim.cmd [[
     augroup CursorShape
-        autocmd!
-        autocmd VimEnter * set guicursor=n-a-v-c:ver25
+    autocmd!
+    autocmd VimEnter * set guicursor=n-a-v-c:ver25
     augroup END
 ]]
 
@@ -26,6 +26,6 @@ vim.o.statusline = "%!v:lua.require('user.statusline')()"
 vim.keymap.set("n", "§", ":lua require('user.nvim-window').pick()<CR>", { desc = "window" })
 
 require('diffview').setup({
-  enhanced_diff_hl = true,  -- Enable more detailed diff highlights
+    enhanced_diff_hl = true,  -- Enable more detailed diff highlights
 })
 
