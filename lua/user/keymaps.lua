@@ -26,9 +26,8 @@ vim.keymap.set("", "`", "~", options(""))
 vim.keymap.set("", "~", "`", options(""))
 vim.keymap.set("", ":", ";", { silent = false })
 vim.keymap.set("", ";", ":", { silent = false })
-vim.keymap.set("n", "P", 'p', options("Paste after cursor"))
-vim.keymap.set("n", "p", 'P', options("Paste before cursor"))
-vim.keymap.set("n", "§", "<C-w>w", options("Switch windows"))
+vim.keymap.set("n", "+", '<C-a>', options("Increment number"))
+vim.keymap.set("n", "-", '<C-x>', options("Decrement number"))
 vim.keymap.set("n", "dd", '"_dd', options("Delete text without copying"))
 
 vim.keymap.set("n", "<Esc>", "<cmd>noh<CR>", { desc = "Clear highlights" })
@@ -54,13 +53,13 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 -- Insert --
-vim.keymap.set("i", '"', '""<Left>', {})
-vim.keymap.set("i", "'", "''<Left>", {})
-vim.keymap.set("i", "`", "``<Left>", {})
-vim.keymap.set("i", "<", "<><Left>", {})
-vim.keymap.set("i", "(", "()<Left>", {})
-vim.keymap.set("i", "{", "{}<Left>", {})
-vim.keymap.set("i", "[", "[]<Left>", {})
+vim.keymap.set("i", ',"', '""<Left>', {})
+vim.keymap.set("i", ",'", "''<Left>", {})
+vim.keymap.set("i", ",`", "``<Left>", {})
+vim.keymap.set("i", ",<", "<><Left>", {})
+vim.keymap.set("i", ",(", "()<Left>", {})
+vim.keymap.set("i", ",{", "{}<Left>", {})
+vim.keymap.set("i", ",[", "[]<Left>", {})
 
 -- Visual --
 vim.keymap.set("v", "<", "<gv", options("Stay in indent mode"))
@@ -101,6 +100,16 @@ vim.keymap.set("n", "<leader>gm", "<cmd>Telescope git_commits<CR>", { desc = "Te
 vim.keymap.set('n', '<leader>hm', utils.macro_help, options("Macro cheatsheet"))
 vim.keymap.set('n', '<leader>hk', utils.mark_help, options("Marks cheatsheet"))
 vim.keymap.set('n', '<leader>hr', utils.reg_help, options("Registers cheatsheet"))
+vim.keymap.set('n', '<leader>hd', utils.markdown_help, options("Markdown cheatsheet"))
+
+-- Wrapper
+vim.keymap.set('v', '(', function() utils.wrap_selection("(", ")") end, options("Wrap ()"))
+vim.keymap.set('v', '[', function() utils.wrap_selection("[", "]") end, options("Wrap []"))
+vim.keymap.set('v', '{', function() utils.wrap_selection("{", "}") end, options("Wrap {}"))
+vim.keymap.set('v', '`', function() utils.wrap_selection("`", "`") end, options("Wrap ``"))
+vim.keymap.set('v', "'", function() utils.wrap_selection("'", "'") end, options("Wrap ''"))
+vim.keymap.set('v', '"', function() utils.wrap_selection('"', '"') end, options("Wrap \"\""))
+
 
 -- Session Manager
 local manager = require("user.session_manager")
@@ -108,6 +117,13 @@ vim.keymap.set('n', '<leader>ss', manager.save_session, options("Save Session"))
 vim.keymap.set('n', '<leader>sw', manager.show_session_manager, options("Show Session Manager"))
 
 vim.keymap.set("n", "<leader>il", "<cmd>IBLToggle<CR>", { desc = "IBLToggle" })
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "markdown",
+    callback = function()
+        vim.keymap.set("n", "<leader>ll", "<cmd>RenderMarkdown toggle<CR>", {})
+    end,
+})
 
 -- LSP
 local opts = { noremap = true, silent = true }
@@ -117,7 +133,7 @@ vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
 vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
 vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
 vim.keymap.set("n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-vim.keymap.set("n", "<leader>lc", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 vim.keymap.set("n", "<leader>lo", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 vim.keymap.set("n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
 vim.keymap.set("n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)

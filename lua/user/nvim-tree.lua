@@ -48,7 +48,7 @@ require('nvim-tree').setup {
         enable = false
     },
     filters = {
-        custom = { '.git', 'build', '.cache' }  -- Add folders you want to ignore
+        custom = { '.DS_Store', '.cache' }  -- Add folders you want to ignore
     }
 }
 

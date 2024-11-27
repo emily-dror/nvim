@@ -18,7 +18,7 @@ end
 local function write_popup(content, title, width)
     title = title or ""
     width = width or 80
-    local height = #content + 1
+    local height = math.floor(vim.o.lines / 2) + 1
     local opts = {
         relative = 'editor',
         width = width,
@@ -315,6 +315,118 @@ M.macro_help = function()
         "  @   - Register that holds the last played macro.",
     }
     write_popup(content, "Vim Macros")
+end
+
+M.markdown_help = function()
+    local content = {
+        "",
+        "## Headers",
+        "",
+        "# This is a Heading h1",
+        "## This is a Heading h2",
+        "###### This is a Heading h6",
+        "",
+        "## Emphasis",
+        "",
+        "*This text will be italic*  ",
+        "_This will also be italic_",
+        "",
+        "**This text will be bold**  ",
+        "__This will also be bold__",
+        "",
+        "_You **can** combine them_",
+        "",
+        "## Lists",
+        "",
+        "### Unordered",
+        "",
+        "* Item 1",
+        "* Item 2",
+        "* Item 2a",
+        "* Item 2b",
+        "",
+        "### Ordered",
+        "",
+        "1. Item 1",
+        "2. Item 2",
+        "3. Item 3",
+            "1. Item 3a",
+            "2. Item 3b",
+        "",
+        "## Images",
+        "",
+        "![This is an alt text.](/image/sample.webp \"This is a sample image.\")",
+        "",
+        "## Links",
+        "",
+        "You may be using [Markdown Live Preview](https://markdownlivepreview.com/).",
+        "",
+        "## Blockquotes",
+        "",
+        "> Markdown is a lightweight markup language with plain-text-formatting syntax, created in 2004 by John Gruber with Aaron Swartz.",
+        ">",
+        ">> Markdown is often used to format readme files, for writing messages in online discussion forums, and to create rich text using a plain text editor.",
+        "",
+        "## Tables",
+        "",
+        "| Left columns  | Right columns |",
+        "| ------------- |:-------------:|",
+        "| left foo      | right foo     |",
+        "| left bar      | right bar     |",
+        "| left baz      | right baz     |",
+        "",
+        "## Blocks of code",
+        "",
+        "```",
+        "let message = 'Hello world';",
+        "alert(message);",
+        "```",
+        "",
+        "## Inline code",
+        "",
+        "This web site is using `markedjs/marked`.",
+    }
+    write_popup(content, "Markdown syntax guide")
+end
+
+M.wrap_selection = function(lpar, rpar)
+    if not vim.fn.mode():match('[vV\22]') then
+        print("Not in visual mode!")
+    end
+
+    local bufnr = vim.api.nvim_get_current_buf()
+    local start_pos = vim.fn.getpos("v")
+    local end_pos = vim.fn.getpos(".")
+
+    local start_row = start_pos[2] - 1
+    local start_col = start_pos[3] - 1
+    local end_row = end_pos[2] - 1
+    local end_col = end_pos[3]
+
+    if start_col > vim.fn.col('$') - 1 then
+        start_col = vim.fn.col('$') - 1
+    end
+
+    if end_col > vim.fn.col('$') - 1 then
+        end_col = vim.fn.col('$') - 1
+    end
+
+    if vim.fn.mode() == 'V' then
+       start_col = 0
+       end_col = vim.fn.col('$') - 1
+    end
+
+    local rp = vim.api.nvim_buf_get_text(bufnr, end_row, end_col - 1, end_row, end_col, {})
+    local lp = vim.api.nvim_buf_get_text(bufnr, start_row, start_col, start_row, start_col + 1, {})
+
+    if vim.inspect(lp) == string.format('{ "%s" }', lpar)
+        and vim.inspect(rp) == string.format('{ "%s" }', rpar) then
+        vim.api.nvim_buf_set_text(bufnr, end_row, end_col - 1, end_row, end_col, {})
+        vim.api.nvim_buf_set_text(bufnr, start_row, start_col, start_row, start_col + 1, {})
+    else
+        vim.api.nvim_buf_set_text(bufnr, end_row, end_col, end_row, end_col, { rpar })
+        vim.api.nvim_buf_set_text(bufnr, start_row, start_col, start_row, start_col, { lpar })
+    end
 end
 
 return M

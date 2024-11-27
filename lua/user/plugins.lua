@@ -73,6 +73,8 @@ return packer.startup(function(use)
         "nvim-treesitter/nvim-treesitter",
         run = ":TSUpdate",
     }
+    use "p00f/nvim-ts-rainbow"
+    use "nvim-treesitter/playground"
 
     use 'Mofiqul/vscode.nvim'
     use "goolord/alpha-nvim"
@@ -100,8 +102,8 @@ return packer.startup(function(use)
         end,
     })
 
-    use 'tpope/vim-fugitive'
-    use "lukas-reineke/indent-blankline.nvim"
+    -- use 'tpope/vim-fugitive'
+    -- use "lukas-reineke/indent-blankline.nvim"
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
