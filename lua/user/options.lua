@@ -2,6 +2,7 @@
 vim.opt.backup = false                          -- creates a backup file
 vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
 vim.opt.cmdheight = 1                           -- more space in the neovim command line for displaying messages
+vim.opt.colorcolumn = "100"
 vim.opt.completeopt = { "menuone", "noselect" } -- mostly just for cmp
 vim.opt.conceallevel = 0                        -- so that `` is visible in markdown files
 vim.opt.fileencoding = "utf-8"                  -- the encoding written to a file
@@ -29,44 +30,38 @@ vim.opt.number = true                           -- set numbered lines
 vim.opt.relativenumber = true                  -- set relative numbered lines
 vim.opt.numberwidth = 4                         -- set number column width to 2 {default 4}
 vim.opt.signcolumn = "yes"                      -- always show the sign column, otherwise it would shift the text each time
-vim.opt.wrap = true                            -- display lines as one long line
+vim.opt.wrap = false                            -- display lines as one long line
 vim.opt.scrolloff = 8                           -- is one of my fav
 vim.opt.sidescrolloff = 8
-vim.opt.guifont = "monospace:h17"               -- the font used in graphical neovim applications
 
 vim.opt.shortmess:append "c"
+vim.cmd [[colorscheme vscode]]
+vim.cmd [[set whichwrap+=<,>,[,],h,l]]
+vim.cmd [[
+    augroup CursorShape
+    autocmd!
+    autocmd VimEnter * set guicursor=n-a-v-c:ver25
+    augroup END
+]]
 
-vim.cmd "set whichwrap+=<,>,[,],h,l"
-vim.cmd [[set iskeyword+=-]]
-
--- Color Column
-vim.opt.colorcolumn = "100"
+-- Use a global status line
+vim.o.laststatus = 3
+vim.o.statusline = "%!v:lua.require('user.statusline')()"
 
 -- VimTex
 vim.g.vimtex_quickfix_mode = 0
 vim.g.vimtex_view_method = "skim"
 
--- Set the global status line
-vim.o.laststatus = 3
+-- Whitespaces
+vim.api.nvim_create_autocmd("BufWritePre", { pattern = "*", command = "%s/\\s\\+$//e" })
 
--- Whitespace
-vim.api.nvim_set_hl(0, "ExtraWhitespace", { ctermbg = "darkred", bg = "darkred" })
-vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = "*",
-    command = "%s/\\s\\+$//e"
-})
-
-vim.o.background = 'dark'  -- For dark mode
-vim.cmd [[colorscheme vscode]]
-
-require('vscode').setup({
-  transparent = true,        -- Set to true if you want transparent background
-  italic_comments = true,     -- Enable italic comments
-  underline_links = true,
-  disable_nvimtree_bg = true,
-})
-
-vim.opt.foldlevel = 99
-vim.opt.foldmethod = 'expr'
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-
+vim.opt.list = true -- Enable showing list characters
+vim.opt.listchars = {
+    eol = "↴",
+    space = '⋅',
+    tab = '→ ',
+    trail = '·',
+    extends = '⟩',
+    precedes = '⟨',
+    nbsp = '␣',
+}

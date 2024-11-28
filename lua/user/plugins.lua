@@ -81,7 +81,6 @@ return packer.startup(function(use)
 
     -- Git
     use {'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'}
-    use "sindrets/diffview.nvim"
 
     use "folke/which-key.nvim"
     use "lervag/vimtex"
@@ -114,12 +113,13 @@ return packer.startup(function(use)
             require("barbecue").setup()
         end,
     })
-    -- use 'tpope/vim-fugitive'
-    -- use "lukas-reineke/indent-blankline.nvim"
+    use 'tpope/vim-fugitive'
+    use "lukas-reineke/indent-blankline.nvim"
+    use "lewis6991/gitsigns.nvim"
 
-  -- Automatically set up your configuration after cloning packer.nvim
-  -- Put this at the end after all plugins
-  if PACKER_BOOTSTRAP then
-    require("packer").sync()
-  end
+    -- Automatically set up your configuration after cloning packer.nvim
+    -- Put this at the end after all plugins
+    if PACKER_BOOTSTRAP then
+        require("packer").sync()
+    end
 end)

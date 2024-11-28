@@ -1,21 +1,23 @@
 require'nvim-treesitter.configs'.setup {
-    modules = {},   -- dummy
-    -- A list of parser names, or "all" (the listed parsers MUST always be installed)
-    ensure_installed = { "c", "cpp", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "latex", "json" },
+    modules = {},
+    ensure_installed = {
+        "c",
+        "cpp",
+        "lua",
+        "vim",
+        "vimdoc",
+        "query",
+        "markdown",
+        "markdown_inline",
+        "latex",
+        "json"
+    },
 
-    -- Install parsers synchronously (only applied to `ensure_installed`)
     sync_install = false,
-
-    -- Automatically install missing parsers when entering buffer
     auto_install = true,
-
-    -- List of parsers to ignore installing (or "all")
     ignore_install = {},
-
     highlight = {
         enable = true,
-
-        -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
         disable = function(lang, buf)
             local max_filesize = 100 * 1024 -- 100 KB
             local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
@@ -32,13 +34,23 @@ require'nvim-treesitter.configs'.setup {
     },
     rainbow = {
         enable = false,
-        -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
-        extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-        max_file_lines = nil, -- Do not enable for files with more than n lines, int
-        -- colors = {}, -- table of hex strings
-        -- termcolors = {} -- table of colour name strings
+        extended_mode = true,
+        max_file_lines = nil,
     },
     playground = {
         enable = true,
     }
 }
+
+vim.api.nvim_set_hl(0, "@function.macro", { fg = '#c586c0' })
+vim.api.nvim_set_hl(0, "@keyword.directive.c", { fg = '#c586c0' })
+vim.api.nvim_set_hl(0, "@keyword.directive.define.c", { fg = '#c586c0' })
+vim.api.nvim_set_hl(0, "@keyword.type.c", { fg = '#4ec9b0' })
+vim.api.nvim_set_hl(0, "@type.builtin.c", { fg = '#4ec9b0' })
+vim.api.nvim_set_hl(0, "@constant.macro.c", { fg = '#4fc1ff' })
+
+vim.api.nvim_set_hl(0, "@keyword.directive.cpp", { fg = '#c586c0' })
+vim.api.nvim_set_hl(0, "@keyword.directive.define.cpp", { fg = '#c586c0' })
+vim.api.nvim_set_hl(0, "@keyword.type.cpp", { fg = '#4ec9b0' })
+vim.api.nvim_set_hl(0, "@type.builtin.cpp", { fg = '#4ec9b0' })
+vim.api.nvim_set_hl(0, "@constant.macro.cpp", { fg = '#4fc1ff' })

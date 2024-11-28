@@ -56,7 +56,26 @@ statusline_modules.mode = function()
 
     local current_mode = "%#StatusLine" .. modes[m][2] .. "Mode#  " .. modes[m][1]
     local mode_sep = "%#StatusLine" .. modes[m][2].. "ModeSep# " .. separators.right
-    return current_mode .. mode_sep .. "%#StatusLineEmptySpace#"
+    return current_mode .. mode_sep
+end
+
+statusline_modules.diagnostics = function()
+    local clients = vim.lsp.get_clients({ bufnr = 0 })
+    if #clients == 0 then
+        return "%#StatusLineFile#   LSP %#StatusLineFileSep#"
+        .. separators.right .. " %#StatusLineEmptySpace# "
+    end
+
+
+    local names = {}
+    for _, obj in ipairs(clients) do
+        if obj.name then
+            table.insert(names, obj.name)
+        end
+    end
+
+    return "%#StatusLineFile#   LSP (" .. table.concat(names, ", ") .. ")%#StatusLineFileSep#"
+    .. separators.right .. " %#StatusLineEmptySpace# "
 end
 
 
@@ -96,10 +115,6 @@ end
 statusline_modules.cursor = function()
     return "%#StatusLineCursorSep#" .. separators.left ..
     "%#StatusLineCursorIcon#  %#StatusLineCursor# %l:%c | %L "
-end
-
-statusline_modules.diagnostics = function()
-    return ""
 end
 
 -- Colors
@@ -144,7 +159,7 @@ vim.api.nvim_set_hl(0, "StatusLineSelectModeSep", { fg = "#5E81AC", bg = "#5E81A
 return function()
     local statusline = {}
     local order = {
-        "mode", "file", "git", "%=", "%=", "diagnostics", "cwd", "cursor"
+        "mode", "diagnostics", "git", "%=", "%=", "cwd", "cursor"
     }
 
     for _, component in ipairs(order) do

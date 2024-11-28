@@ -35,9 +35,10 @@ vim.keymap.set("n", "<S-C-Up>", ":resize -2<CR>", options("Resize window up"))
 vim.keymap.set("n", "<S-C-Down>", ":resize +2<CR>", options("Resize window down"))
 vim.keymap.set("n", "<S-C-Left>", ":vertical resize +2<CR>", options("Resize window left"))
 vim.keymap.set("n", "<S-C-Right>", ":vertical resize -2<CR>", options("Resize window right"))
+vim.keymap.set("n", "§", ":lua require('user.nvim-window').pick()<CR>", { desc = "window" })
 
-vim.keymap.set('n', '<leader>ro', ':%s///g<Left><Left>', opts_ns("Replace"))
-vim.keymap.set('v', '<leader>ro', ':s///g<Left><Left>', opts_ns("Replace"))
+vim.keymap.set('n', '<leader>r', ':%s///g<Left><Left>', opts_ns("Replace"))
+vim.keymap.set('v', '<leader>r', ':s///g<Left><Left>', opts_ns("Replace"))
 
 -- QuickList
 vim.keymap.set("n", "]q", "<cmd>cn<CR>", { desc = "Next quicklist match" })
@@ -89,12 +90,6 @@ vim.keymap.set("n", "<leader>cr", utils.copy_relative_path, { desc = "Copy file 
 
 vim.keymap.set("n", "<leader>wl", utils.remove_wl, { desc = "Remove white lines" })
 vim.keymap.set("n", "<leader>ws", utils.toggle_ws, { desc = "Highlight trailing whitespaces" })
-
--- Git
-vim.keymap.set("n", "<leader>gd", utils.git_diff, { desc = "Git diff current file" })
-vim.keymap.set("n", "<leader>gb", utils.git_blame, { desc = "Git blame current line" })
-vim.keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<CR>", { desc = "telescope git status" })
-vim.keymap.set("n", "<leader>gm", "<cmd>Telescope git_commits<CR>", { desc = "Telescope git commits" })
 
 -- Cheatsheets
 vim.keymap.set('n', '<leader>hm', utils.macro_help, options("Macro cheatsheet"))
@@ -179,5 +174,21 @@ end
 M.tree_keymaps = function()
     vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', options("Toggle Tree"))
 end
+
+M.git_signs = function(gitsigns)
+    vim.keymap.set('n', '<leader>gs', gitsigns.stage_hunk, { desc = "Stage Hunk" })
+    vim.keymap.set('n', '<leader>gr', gitsigns.reset_hunk, { desc = "Reset Hunk" })
+    vim.keymap.set('v', '<leader>gs', function() gitsigns.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { desc = "Stage Hunk" })
+    vim.keymap.set('v', '<leader>gr', function() gitsigns.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { desc = "Reset Hunk" })
+    vim.keymap.set('n', '<leader>gS', gitsigns.stage_buffer, { desc = "Stage Buffer" })
+    vim.keymap.set('n', '<leader>gu', gitsigns.undo_stage_hunk, { desc = "Unod Stage Buffer" })
+    vim.keymap.set('n', '<leader>gR', gitsigns.reset_buffer, { desc = "Reset Buffer" })
+    vim.keymap.set('n', '<leader>gp', gitsigns.preview_hunk, { desc = "Preview Hunk" })
+    vim.keymap.set('n', '<leader>gb', function() gitsigns.blame_line{full=true} end, { desc = "Blame Line" })
+    vim.keymap.set('n', '<leader>gB', gitsigns.toggle_current_line_blame, { desc = "Toggle Current Line Blame" })
+    vim.keymap.set('n', '<leader>gd', gitsigns.diffthis, { desc = "Diff This" })
+    vim.keymap.set('n', '<leader>gD', gitsigns.toggle_deleted, { desc = "Toggle Deleted" })
+end
+
 
 return M
