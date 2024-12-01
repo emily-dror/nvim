@@ -23,8 +23,6 @@ require('lspconfig').clangd.setup{
 
     on_attach = function(client, bufnr)
         require("user.keymaps").lsp_keymaps(bufnr)
-        -- lsp_highlight_document(client)
-        -- client.server_capabilities.semanticTokensProvider = nil
     end,
 
     cmd = {
@@ -44,7 +42,6 @@ require('lspconfig').clangd.setup{
 require('lspconfig').pyright.setup {
     capabilities = cmp_capabilities,
     on_attach = function(client, bufnr)
-        -- Your custom keybindings or settings
         lsp_highlight_document(client)
     end,
     filetypes = { "python" },  -- Ensure only Python files are targeted
@@ -73,19 +70,22 @@ require('lspconfig').lua_ls.setup {
     end,
     settings = {
         Lua = {
-            runtime = {
-                version = 'LuaJIT',
-            },
-            diagnostics = {
-                globals = {'vim'},
-            },
-            workspace = {
-                library = vim.api.nvim_get_runtime_file("", true),
-            },
-            telemetry = {
-                enable = false,
-            },
+            runtime = { version = 'LuaJIT' },
+            diagnostics = { globals = {'vim'} },
+            workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+            telemetry = { enable = false },
         },
     },
 }
 
+require('lspconfig').prolog_ls.setup {
+    cmd = {
+        "swipl",
+        "-g", "use_module(library(lsp_server)).",
+        "-g", "lsp_server:main",
+        "-t", "halt",
+        "--", "stdio"
+    },
+    filetypes = { "prolog" },
+    root_dir = require('lspconfig').util.root_pattern(".git", "*.pl"),
+}

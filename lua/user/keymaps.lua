@@ -78,6 +78,7 @@ vim.keymap.set("x", "<S-Down>", ":move '>+1<CR>gv-gv", options("Move text down")
 local utils = require("user.utils")
 vim.keymap.set("n", "<leader>aa", utils.emily, { desc = "Appa, yip yip!!" })
 vim.keymap.set("n", "<leader>at", utils.toggle_alpha, { desc = "Toggle Alpha screen" })
+vim.keymap.set("n", "<leader>gd", utils.git_diff, { desc = "Git diff current file" })
 
 vim.keymap.set("n", "<C-x>", utils.bclose, { desc = "Buffer close" })
 vim.keymap.set("n", "<tab>", utils.bnext, { desc = "Buffer goto next" })
@@ -156,20 +157,13 @@ M.lsp_keymaps = function(bufnr)
     vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
 end
 
-M.telescope_keymaps = function()
-    vim.keymap.set("n", "<leader>fm", "<cmd>Telescope marks<CR>", { desc = "telescope find marks" })
-    vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", { desc = "telescope help page" })
-    vim.keymap.set("n", "<leader>fw", "<cmd>Telescope live_grep<CR>", { desc = "telescope live grep" })
-    vim.keymap.set("n", "<leader>fr", "<cmd>Telescope resume<CR>", { desc = "telescope resume search" })
-    vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<CR>", { desc = "telescope find buffers" })
-    vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "telescope find files" })
-    vim.keymap.set("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", { desc = "telescope find oldfiles" })
-    vim.keymap.set("n", "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<CR>",
-        { desc = "telescope find in current buffer" })
-    vim.keymap.set("n", "<leader>fa",
-        "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>",
-        { desc = "telescope find all files" })
-end
+vim.keymap.set("n", "<leader>fm", "<cmd>FzfLua marks<CR>", { desc = "telescope find marks" })
+vim.keymap.set("n", "<leader>fh", "<cmd>FzfLua help_tags<CR>", { desc = "telescope help page" })
+vim.keymap.set("n", "<leader>fw", "<cmd>FzfLua live_grep<CR>", { desc = "telescope live grep" })
+vim.keymap.set("n", "<leader>fr", "<cmd>FzfLua resume<CR>", { desc = "telescope resume search" })
+vim.keymap.set("n", "<leader>fb", "<cmd>FzfLua buffers<CR>", { desc = "telescope find buffers" })
+vim.keymap.set("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "telescope find files" })
+vim.keymap.set("n", "<leader>fo", "<cmd>FzfLua oldfiles<CR>", { desc = "telescope find oldfiles" })
 
 M.tree_keymaps = function()
     vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', options("Toggle Tree"))
@@ -186,9 +180,7 @@ M.git_signs = function(gitsigns)
     vim.keymap.set('n', '<leader>gp', gitsigns.preview_hunk, { desc = "Preview Hunk" })
     vim.keymap.set('n', '<leader>gb', function() gitsigns.blame_line{full=true} end, { desc = "Blame Line" })
     vim.keymap.set('n', '<leader>gB', gitsigns.toggle_current_line_blame, { desc = "Toggle Current Line Blame" })
-    vim.keymap.set('n', '<leader>gd', gitsigns.diffthis, { desc = "Diff This" })
     vim.keymap.set('n', '<leader>gD', gitsigns.toggle_deleted, { desc = "Toggle Deleted" })
 end
-
 
 return M
