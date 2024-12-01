@@ -100,7 +100,7 @@ end
 statusline_modules.git = function()
     local git_branch = require("user.utils").git_branch()
     if git_branch then
-        return "%#StatusLineGit#  " .. git_branch .. "%#StatusLineEmptySpace#"
+        return "%#StatusLineGit# " .. git_branch .. "%#StatusLineEmptySpace#"
     end
     return "%#StatusLineEmptySpace#"
 end

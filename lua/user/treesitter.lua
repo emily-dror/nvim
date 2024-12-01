@@ -7,13 +7,14 @@ require'nvim-treesitter.configs'.setup {
         "vim",
         "vimdoc",
         "query",
+        "python",
         "markdown",
         "markdown_inline",
         "latex",
         "json"
     },
 
-    sync_install = false,
+    sync_install = true,
     auto_install = true,
     ignore_install = {},
     highlight = {

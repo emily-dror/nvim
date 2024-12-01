@@ -24,7 +24,7 @@ require('lspconfig').clangd.setup{
     on_attach = function(client, bufnr)
         require("user.keymaps").lsp_keymaps(bufnr)
         -- lsp_highlight_document(client)
-        client.server_capabilities.semanticTokensProvider = nil
+        -- client.server_capabilities.semanticTokensProvider = nil
     end,
 
     cmd = {
@@ -88,14 +88,4 @@ require('lspconfig').lua_ls.setup {
         },
     },
 }
-
-require("null-ls").setup({
-    sources = {
-        require("null-ls").builtins.diagnostics.pylint.with({
-            command = "pylint",  -- The pylint command
-            args = { "--from-stdin", "--output-format", "json", "$FILENAME" },
-            diagnostics_format = "[pylint] #{m} (#{c})",
-        }),
-    },
-})
 

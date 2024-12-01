@@ -117,6 +117,12 @@ return packer.startup(function(use)
     use "lukas-reineke/indent-blankline.nvim"
     use "lewis6991/gitsigns.nvim"
 
+    -- Themes
+    use 'joshdick/onedark.vim' -- Onedark theme
+    use 'morhetz/gruvbox'      -- Gruvbox theme
+    use 'sainnhe/edge'         -- Edge theme
+    use 'shaunsingh/nord.nvim' -- Nord theme
+
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if PACKER_BOOTSTRAP then
