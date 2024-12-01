@@ -8,8 +8,6 @@ require'nvim-treesitter.configs'.setup {
         "vimdoc",
         "query",
         "python",
-        "markdown",
-        "markdown_inline",
         "latex",
         "json"
     },
@@ -20,7 +18,7 @@ require'nvim-treesitter.configs'.setup {
     highlight = {
         enable = true,
         disable = function(lang, buf)
-            local max_filesize = 100 * 1024 -- 100 KB
+            local max_filesize = 500 * 1024 -- 500 KB
             local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
             if ok and stats and stats.size > max_filesize then
                 return true
@@ -33,14 +31,8 @@ require'nvim-treesitter.configs'.setup {
         -- Instead of true it can also be a list of languages
         additional_vim_regex_highlighting = false,
     },
-    rainbow = {
-        enable = false,
-        extended_mode = true,
-        max_file_lines = nil,
-    },
-    playground = {
-        enable = true,
-    }
+    rainbow = { enable = false },
+    playground = { enable = false }
 }
 
 vim.api.nvim_set_hl(0, "@function.macro", { fg = '#c586c0' })

@@ -73,8 +73,6 @@ return packer.startup(function(use)
         "nvim-treesitter/nvim-treesitter",
         run = ":TSUpdate",
     }
-    use "p00f/nvim-ts-rainbow"
-    use "nvim-treesitter/playground"
 
     use 'Mofiqul/vscode.nvim'
     use "goolord/alpha-nvim"
@@ -91,17 +89,6 @@ return packer.startup(function(use)
     })
 
     use({
-        'MeanderingProgrammer/render-markdown.nvim',
-        after = { 'nvim-treesitter' },
-        requires = { 'echasnovski/mini.nvim', opt = true }, -- if you use the mini.nvim suite
-        -- requires = { 'echasnovski/mini.icons', opt = true }, -- if you use standalone mini plugins
-        -- requires = { 'nvim-tree/nvim-web-devicons', opt = true }, -- if you prefer nvim-web-devicons
-        config = function()
-            require('render-markdown').setup({})
-        end,
-    })
-
-    use({
         "utilyre/barbecue.nvim",
         tag = "*",
         requires = {
@@ -113,15 +100,17 @@ return packer.startup(function(use)
             require("barbecue").setup()
         end,
     })
+
     use 'tpope/vim-fugitive'
     use "lukas-reineke/indent-blankline.nvim"
     use "lewis6991/gitsigns.nvim"
 
-    -- Themes
-    use 'joshdick/onedark.vim' -- Onedark theme
-    use 'morhetz/gruvbox'      -- Gruvbox theme
-    use 'sainnhe/edge'         -- Edge theme
-    use 'shaunsingh/nord.nvim' -- Nord theme
+    use { "ibhagwan/fzf-lua",
+        -- optional for icon support
+        requires = { "nvim-tree/nvim-web-devicons" }
+        -- or if using mini.icons/mini.nvim
+        -- requires = { "echasnovski/mini.icons" }
+    }
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
