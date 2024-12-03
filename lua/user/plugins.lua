@@ -103,9 +103,6 @@ return packer.startup(function(use)
 
     use { "ibhagwan/fzf-lua",
         requires = { "nvim-tree/nvim-web-devicons" },
-        config = function()
-            require('fzf-lua').setup({'fzf-vim'})
-        end,
     }
 
     -- Automatically set up your configuration after cloning packer.nvim
