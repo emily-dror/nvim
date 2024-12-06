@@ -106,6 +106,43 @@ vim.keymap.set('v', '`', function() utils.wrap_selection("`", "`") end, options(
 vim.keymap.set('v', "'", function() utils.wrap_selection("'", "'") end, options("Wrap ''"))
 vim.keymap.set('v', '"', function() utils.wrap_selection('"', '"') end, options("Wrap \"\""))
 
+-- Git
+local gitsigns = require('gitsigns')
+vim.keymap.set("n", "]c",
+    function()
+        if vim.wo.diff then
+            vim.cmd.normal({']c', bang = true})
+        else
+            gitsigns.nav_hunk('next')
+        end
+    end,
+    { desc = "Toggle Deleted" }
+)
+
+vim.keymap.set("n", "[c",
+    function()
+        if vim.wo.diff then
+            vim.cmd.normal({'[c', bang = true})
+        else
+            gitsigns.nav_hunk('prev')
+        end
+    end,
+    { desc = "Toggle Deleted" }
+)
+
+vim.keymap.set('n', '<leader>gs', gitsigns.stage_hunk, { desc = "Stage Hunk" })
+vim.keymap.set('n', '<leader>gr', gitsigns.reset_hunk, { desc = "Reset Hunk" })
+vim.keymap.set('v', '<leader>gs', function() gitsigns.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { desc = "Stage Hunk" })
+vim.keymap.set('v', '<leader>gr', function() gitsigns.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { desc = "Reset Hunk" })
+vim.keymap.set('n', '<leader>gS', gitsigns.stage_buffer, { desc = "Stage Buffer" })
+vim.keymap.set('n', '<leader>gu', gitsigns.undo_stage_hunk, { desc = "Unod Stage Buffer" })
+vim.keymap.set('n', '<leader>gR', gitsigns.reset_buffer, { desc = "Reset Buffer" })
+vim.keymap.set('n', '<leader>gp', gitsigns.preview_hunk, { desc = "Preview Hunk" })
+vim.keymap.set('n', '<leader>gb', function() gitsigns.blame_line{full=true} end, { desc = "Blame Line" })
+vim.keymap.set('n', '<leader>gB', gitsigns.toggle_current_line_blame, { desc = "Toggle Current Line Blame" })
+vim.keymap.set('n', '<leader>gD', gitsigns.toggle_deleted, { desc = "Toggle Deleted" })
+vim.keymap.set({'o', 'x'}, 'ih',  ':<C-U>Gitsigns select_hunk<CR>', { desc = "Select Hunk" })
+
 
 -- Session Manager
 local manager = require("user.session_manager")
@@ -164,23 +201,5 @@ vim.keymap.set("n", "<leader>fr", "<cmd>FzfLua resume<CR>", { desc = "telescope 
 vim.keymap.set("n", "<leader>fb", "<cmd>FzfLua buffers<CR>", { desc = "telescope find buffers" })
 vim.keymap.set("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "telescope find files" })
 vim.keymap.set("n", "<leader>fo", "<cmd>FzfLua oldfiles<CR>", { desc = "telescope find oldfiles" })
-
-M.tree_keymaps = function()
-    vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', options("Toggle Tree"))
-end
-
-M.git_signs = function(gitsigns)
-    vim.keymap.set('n', '<leader>gs', gitsigns.stage_hunk, { desc = "Stage Hunk" })
-    vim.keymap.set('n', '<leader>gr', gitsigns.reset_hunk, { desc = "Reset Hunk" })
-    vim.keymap.set('v', '<leader>gs', function() gitsigns.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { desc = "Stage Hunk" })
-    vim.keymap.set('v', '<leader>gr', function() gitsigns.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { desc = "Reset Hunk" })
-    vim.keymap.set('n', '<leader>gS', gitsigns.stage_buffer, { desc = "Stage Buffer" })
-    vim.keymap.set('n', '<leader>gu', gitsigns.undo_stage_hunk, { desc = "Unod Stage Buffer" })
-    vim.keymap.set('n', '<leader>gR', gitsigns.reset_buffer, { desc = "Reset Buffer" })
-    vim.keymap.set('n', '<leader>gp', gitsigns.preview_hunk, { desc = "Preview Hunk" })
-    vim.keymap.set('n', '<leader>gb', function() gitsigns.blame_line{full=true} end, { desc = "Blame Line" })
-    vim.keymap.set('n', '<leader>gB', gitsigns.toggle_current_line_blame, { desc = "Toggle Current Line Blame" })
-    vim.keymap.set('n', '<leader>gD', gitsigns.toggle_deleted, { desc = "Toggle Deleted" })
-end
 
 return M

@@ -56,7 +56,7 @@ vim.g.vimtex_view_method = "skim"
 -- Whitespaces
 vim.api.nvim_create_autocmd("BufWritePre", { pattern = "*", command = "%s/\\s\\+$//e" })
 
-vim.opt.list = true -- Enable showing list characters
+vim.opt.list = false
 vim.opt.listchars = {
     eol = "↴",
     space = '⋅',
