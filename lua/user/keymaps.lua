@@ -24,7 +24,6 @@ vim.keymap.set("", "<Space>", "<Nop>", options("Space"))
 -- Normal --
 vim.keymap.set("", "`", "~", options(""))
 vim.keymap.set("", "~", "`", options(""))
-vim.keymap.set("", ":", ";", { silent = false })
 vim.keymap.set("", ";", ":", { silent = false })
 vim.keymap.set("n", "+", '<C-a>', options("Increment number"))
 vim.keymap.set("n", "-", '<C-x>', options("Decrement number"))
@@ -40,6 +39,8 @@ vim.keymap.set("n", "§", ":lua require('user.nvim-window').pick()<CR>", { desc 
 vim.keymap.set('n', '<leader>r', ':%s///g<Left><Left>', opts_ns("Replace"))
 vim.keymap.set('v', '<leader>r', ':s///g<Left><Left>', opts_ns("Replace"))
 
+vim.keymap.set("", "];", ";", { silent = false })
+vim.keymap.set("", "[;", ",", { silent = false })
 -- QuickList
 vim.keymap.set("n", "]q", "<cmd>cn<CR>", { desc = "Next quicklist match" })
 vim.keymap.set("n", "[q", "<cmd>cp<CR>", { desc = "Previous quicklist match" })
