@@ -75,6 +75,13 @@ return packer.startup(function(use)
     }
 
     use {
+        "micangl/cmp-vimtex",
+        config = function()
+            require('cmp_vimtex').setup()
+        end,
+    }
+
+    use {
         "folke/which-key.nvim",
         config = function()
             require("which-key").setup({triggers = {"<leader>"}})
@@ -144,9 +151,17 @@ return packer.startup(function(use)
         end,
     }
 
--- Automatically set up your configuration after cloning packer.nvim
--- Put this at the end after all plugins
-if PACKER_BOOTSTRAP then
-    require("packer").sync()
-end
+    use {
+        "windwp/nvim-autopairs",
+        event = "InsertEnter",
+        config = function()
+            require("nvim-autopairs").setup {}
+        end
+    }
+
+    -- Automatically set up your configuration after cloning packer.nvim
+    -- Put this at the end after all plugins
+    if PACKER_BOOTSTRAP then
+        require("packer").sync()
+    end
 end)

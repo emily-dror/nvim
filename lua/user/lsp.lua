@@ -23,6 +23,7 @@ require('lspconfig').clangd.setup{
 
     on_attach = function(client, bufnr)
         require("user.keymaps").lsp_keymaps(bufnr)
+        client.server_capabilities.semanticTokensProvider = nil
     end,
 
     cmd = {
@@ -88,4 +89,13 @@ require('lspconfig').prolog_ls.setup {
     },
     filetypes = { "prolog" },
     root_dir = require('lspconfig').util.root_pattern(".git", "*.pl"),
+}
+
+require('lspconfig').bashls.setup {
+    capabilities = cmp_capabilities,
+    on_attach = function(client, bufnr)
+        lsp_highlight_document(client)
+    end,
+    cmd = { 'bash-language-server', 'start' },
+    filetypes = { "sh" },
 }

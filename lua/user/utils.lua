@@ -1,20 +1,3 @@
-
-function DELETE_QUICKFIX_ENTRY()
-    vim.cmd([[
-        let curqfidx = line('.') - 1
-        let qfl = getqflist()
-        call remove(qfl, curqfidx)
-        call setqflist(qfl)
-        let new_idx = curqfidx
-        if new_idx >= len(qfl)
-            let new_idx = len(qfl)
-        endif
-        if new_idx >= 0
-            exec new_idx + 1
-        endif
-    ]])
-end
-
 local function write_popup(content, title, width)
     title = title or ""
     width = width or 80
@@ -82,7 +65,6 @@ M.relative_numbering = function()
     vim.cmd("set relativenumber!")
 end
 
-
 -- Show alpha screen
 M.toggle_alpha = function()
     local buf_name = vim.api.nvim_buf_get_name(0)
@@ -92,7 +74,6 @@ M.toggle_alpha = function()
         vim.cmd("Alpha")
     end
 end
-
 
 -- Buffer Navigation
 M.bnext = function()
@@ -109,6 +90,22 @@ M.bclose = function()
     vim.api.nvim_buf_delete(current_buf, { force = false })
 end
 
+-- Quickfix list
+M.qf_del_entry = function()
+    vim.cmd([[
+        let curqfidx = line('.') - 1
+        let qfl = getqflist()
+        call remove(qfl, curqfidx)
+        call setqflist(qfl)
+        let new_idx = curqfidx
+        if new_idx >= len(qfl)
+            let new_idx = len(qfl)
+        endif
+        if new_idx >= 0
+            exec new_idx + 1
+        endif
+    ]])
+end
 
 -- File Operations
 M.copy_filename = function()
