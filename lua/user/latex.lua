@@ -93,6 +93,14 @@ local tex_mappings = {
         ["inline_formula"] = { rhs = "\\bigg", cursor_pos = 0 },
         ["displayed_equation"] = { rhs = "\\bigg", cursor_pos = 0 },
     },
+    ["T"] = {
+        ["inline_formula"] = { rhs = "\\text{}", cursor_pos = 1 },
+        ["displayed_equation"] = { rhs = "\\text{}", cursor_pos = 1 },
+    },
+    ["M"] = {
+        ["inline_formula"] = { rhs = "\\mathcal{}", cursor_pos = 1 },
+        ["displayed_equation"] = { rhs = "\\mathcal{}", cursor_pos = 1 },
+    },
     ["N"] = {
         ["inline_formula"] = { rhs = "\\nabla", cursor_pos = 0 },
         ["displayed_equation"] = { rhs = "\\nabla", cursor_pos = 0 },
@@ -285,14 +293,14 @@ local function set_mappings(maps, leader)
             return insert_scoped(map) or leader .. key
         end, { expr = true, noremap = true, buffer = 0 })
     end
+    vim.keymap.set("n", "<leader>pc", function()
+        print(ts_utils.get_node_at_cursor():type())
+    end, { expr = true, noremap = true })
 end
 
 vim.api.nvim_create_autocmd("FileType", {
     pattern = "tex", callback = function() set_mappings(tex_mappings, ";") end
 })
 
-vim.keymap.set("n", "<leader>pc", function()
-    print(ts_utils.get_node_at_cursor():type())
-end, { expr = true, noremap = true })
 
 

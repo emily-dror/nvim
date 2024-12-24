@@ -60,12 +60,11 @@ statusline_modules.mode = function()
 end
 
 statusline_modules.diagnostics = function()
-    local clients = vim.lsp.get_clients({ bufnr = 0 })
+    local clients = {}
     if #clients == 0 then
         return "%#StatusLineFile#   LSP %#StatusLineFileSep#"
         .. separators.right .. " %#StatusLineEmptySpace# "
     end
-
 
     local names = {}
     for _, obj in ipairs(clients) do
@@ -97,18 +96,18 @@ statusline_modules.file = function()
     .. separators.right .. " %#StatusLineEmptySpace# "
 end
 
+local git_branch = require("user.utils").git_branch()
 statusline_modules.git = function()
-    local git_branch = require("user.utils").git_branch()
     if git_branch then
-        return "%#StatusLineGit# " .. git_branch .. "%#StatusLineEmptySpace#"
+        return "%#StatusLineGit#   " .. git_branch .. "%#StatusLineEmptySpace# "
     end
     return "%#StatusLineEmptySpace#"
 end
 
+local name = vim.uv.cwd()
+name = "%#StatusLineCwd#" .. " " .. (name:match "([^/\\]+)[/\\]*$" or name) .. " %* "
 statusline_modules.cwd = function()
     local icon = "%#StatusLineCwdIcon#" .. " 󰉋 "
-    local name = vim.uv.cwd()
-    name = "%#StatusLineCwd#" .. " " .. (name:match "([^/\\]+)[/\\]*$" or name) .. " %* "
     return (vim.o.columns > 85 and ("%#StatusLineCwdSep#" .. separators.left .. icon .. name)) or ""
 end
 
@@ -159,7 +158,7 @@ vim.api.nvim_set_hl(0, "StatusLineSelectModeSep", { fg = "#5E81AC", bg = "#5E81A
 return function()
     local statusline = {}
     local order = {
-        "mode", "diagnostics", "git", "%=", "%=", "cwd", "cursor"
+        "mode", "git","diagnostics",  "%=", "%=", "cwd", "cursor"
     }
 
     for _, component in ipairs(order) do

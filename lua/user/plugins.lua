@@ -45,21 +45,9 @@ return packer.startup(function(use)
 
     -- Cmp plugins
     use "hrsh7th/nvim-cmp"
-    use "hrsh7th/cmp-buffer"
-    use "hrsh7th/cmp-path"
-    use "hrsh7th/cmp-cmdline"
-    use 'hrsh7th/cmp-nvim-lsp'
-    use "hrsh7th/cmp-nvim-lua"
-    use 'saadparwaiz1/cmp_luasnip'
-
-    -- Snippets
-    use "L3MON4D3/LuaSnip"
-    use "rafamadriz/friendly-snippets"
-
-    -- LSP
-    use "neovim/nvim-lspconfig"
 
     use "lervag/vimtex"
+    use {'neoclide/coc.nvim', branch = 'release'}
     use "goolord/alpha-nvim"
     use 'Mofiqul/vscode.nvim'
     use 'kyazdani42/nvim-tree.lua'
@@ -155,7 +143,7 @@ return packer.startup(function(use)
         "windwp/nvim-autopairs",
         event = "InsertEnter",
         config = function()
-            require("nvim-autopairs").setup {}
+            require("nvim-autopairs").setup { map_cr = false }
         end
     }
 
