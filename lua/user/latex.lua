@@ -98,6 +98,7 @@ local tex_mappings = {
         ["displayed_equation"] = { rhs = "\\text{}", cursor_pos = 1 },
     },
     ["M"] = {
+        ["default"] = { rhs = "\\[  \\]", cursor_pos = 3 },
         ["inline_formula"] = { rhs = "\\mathcal{}", cursor_pos = 1 },
         ["displayed_equation"] = { rhs = "\\mathcal{}", cursor_pos = 1 },
     },
@@ -182,6 +183,7 @@ local tex_mappings = {
         ["displayed_equation"] = { rhs = "\\lambda", cursor_pos = 0 },
     },
     ["m"] = {
+        ["default"] = { rhs = "\\(  \\)", cursor_pos = 3 },
         ["inline_formula"] = { rhs = "\\mu", cursor_pos = 0 },
         ["displayed_equation"] = { rhs = "\\mu", cursor_pos = 0 },
     },
