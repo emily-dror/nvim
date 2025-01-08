@@ -84,7 +84,6 @@ vim.keymap.set('v', '[', function() utils.wrap_selection("[", "]") end, opts("Wr
 vim.keymap.set('v', '{', function() utils.wrap_selection("{", "}") end, opts("Wrap {}"))
 vim.keymap.set('v', '`', function() utils.wrap_selection("`", "`") end, opts("Wrap ``"))
 vim.keymap.set('v', "'", function() utils.wrap_selection("'", "'") end, opts("Wrap ''"))
-vim.keymap.set('v', '"', function() utils.wrap_selection('"', '"') end, opts("Wrap \"\""))
 
 -- Git
 local gitsigns = require('gitsigns')

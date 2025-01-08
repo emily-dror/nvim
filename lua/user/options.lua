@@ -35,14 +35,13 @@ vim.opt.scrolloff = 4                           -- is one of my fav
 vim.opt.sidescrolloff = 4
 
 vim.opt.shortmess:append "c"
-vim.cmd [[colorscheme vscode]]
+vim.cmd [[colo vscode]]
 vim.cmd [[set whichwrap+=<,>,[,],h,l]]
-vim.cmd [[let g:filetype_pl="prolog"]]
 vim.cmd [[
-    augroup CursorShape
-    autocmd!
-    autocmd VimEnter * set guicursor=n-a-v-c:ver25
-    augroup END
+    aug CursorShape
+    au!
+    au VimEnter * set guicursor=n-a-v-c:ver25
+    aug END
 ]]
 
 -- Use a global status line
@@ -52,17 +51,21 @@ vim.o.statusline = "%!v:lua.require('user.statusline')()"
 -- VimTex
 vim.g.vimtex_syntax_enabled = 0
 vim.g.vimtex_view_method = "skim"
+vim.g.vimtex_compiler_latexmk = {
+    build_dir = 'build',
+    aux_dir = 'build',
+    options = {
+        '-shell-escape',
+        '-verbose',
+        '-file-line-error',
+        '-synctex=0',
+        '-interaction=nonstopmode',
+        '-aux-directory=build',
+    },
+}
 
 -- Whitespaces
-vim.api.nvim_create_autocmd("BufWritePre", { pattern = "*", command = "%s/\\s\\+$//e" })
+vim.cmd [[
+    au BufWritePre * :%s/\s\+$//e
+]]
 
-vim.opt.list = false
-vim.opt.listchars = {
-    eol = "↴",
-    space = '⋅',
-    tab = '→ ',
-    trail = '·',
-    extends = '⟩',
-    precedes = '⟨',
-    nbsp = '␣',
-}

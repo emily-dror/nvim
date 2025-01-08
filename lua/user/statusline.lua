@@ -79,21 +79,8 @@ end
 
 
 statusline_modules.file = function()
-    local icon = "󰈚"
-    local path = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
-    local name = (path == "" and "Empty ") or path:match "([^\\]+)[/\\]*$"
-
-    if name ~= "Empty " then
-        local devicons_present, devicons = pcall(require, "nvim-web-devicons")
-
-        if devicons_present then
-          local ft_icon = devicons.get_icon(name)
-          icon = (ft_icon ~= nil and ft_icon) or icon
-        end
-    end
-
-    return "%#StatusLineFile#   " .. icon .. " " .. name .. " " .. "%#StatusLineFileSep#"
-    .. separators.right .. " %#StatusLineEmptySpace# "
+    return "%#StatusLineFile#  󰈚 %f " .. "%#StatusLineFileSep#"
+    .. separators.right .. "  %#StatusLineEmptySpace#"
 end
 
 local git_branch = require("user.utils").git_branch()
@@ -113,7 +100,7 @@ end
 
 statusline_modules.cursor = function()
     return "%#StatusLineCursorSep#" .. separators.left ..
-    "%#StatusLineCursorIcon#  %#StatusLineCursor# %l:%c | %L "
+    "%#StatusLineCursorIcon#  %#StatusLineCursor# %l:%c | %L (%o) "
 end
 
 -- Colors
@@ -158,7 +145,7 @@ vim.api.nvim_set_hl(0, "StatusLineSelectModeSep", { fg = "#5E81AC", bg = "#5E81A
 return function()
     local statusline = {}
     local order = {
-        "mode", "git","diagnostics",  "%=", "%=", "cwd", "cursor"
+        "mode", "git", "%=", "%=", "cwd", "cursor"
     }
 
     for _, component in ipairs(order) do
