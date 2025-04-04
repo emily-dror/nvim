@@ -1,4 +1,3 @@
-
 local opts = function(description, sil, buf)
     buf = buf or false
     return { desc = description, noremap = true, silent = sil, buffer = buf }
@@ -18,9 +17,6 @@ vim.keymap.set("", "<Space>", "<Nop>", opts("Space"))
 --   command_mode = "c",
 
 -- Normal --
-vim.keymap.set("n", "§", "~", opts(""))
-vim.keymap.set("n", "±", "`", opts(""))
-vim.keymap.set("n", ";", ":", { silent = false })
 vim.keymap.set("n", "+", '<C-a>', opts("Increment number"))
 vim.keymap.set("n", "-", '<C-x>', opts("Decrement number"))
 vim.keymap.set("n", "<BS>", '"_dd', opts("Delete text without copying"))
@@ -34,9 +30,6 @@ vim.keymap.set("n", "\\", function() require('user.nvim-window').pick() end , op
 
 vim.keymap.set('n', '<leader>r', ':%s///g<Left><Left>', opts("Replace", false))
 vim.keymap.set('v', '<leader>r', ':s///g<Left><Left>', opts("Replace", false))
-
-vim.keymap.set("n", "];", ";", { silent = false })
-vim.keymap.set("n", "[;", ",", { silent = false })
 
 -- Visual --
 vim.keymap.set("v", "<", "<gv", opts("Stay in indent mode"))
@@ -53,7 +46,6 @@ vim.keymap.set("x", "<S-Down>", ":move '>+1<CR>gv-gv", opts("Move text down", tr
 -- Utilities
 local utils = require("user.utils")
 vim.keymap.set("n", "<leader>aa", utils.emily, { desc = "Appa, yip yip!!" })
-vim.keymap.set("n", "<leader>at", utils.toggle_alpha, { desc = "Toggle Alpha screen" })
 vim.keymap.set("n", "<leader>gd", utils.git_diff, { desc = "Git diff current file" })
 
 vim.keymap.set("n", "<C-x>", utils.bclose, { desc = "Buffer close" })
