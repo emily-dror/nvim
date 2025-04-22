@@ -1,4 +1,5 @@
 require("ibl").setup()
+require('onedark').load()
 require("barbecue").setup()
 require("bufferline").setup()
 require("which-key").setup({
