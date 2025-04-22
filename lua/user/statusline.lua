@@ -55,7 +55,7 @@ statusline_modules.mode = function()
     local m = vim.api.nvim_get_mode().mode
 
     local current_mode = "%#StatusLine" .. modes[m][2] .. "Mode#  " .. modes[m][1]
-    local mode_sep = "%#StatusLine" .. modes[m][2].. "ModeSep# " .. separators.right
+    local mode_sep = "%#StatusLine" .. modes[m][2] .. "ModeSep# " .. separators.right
     return current_mode .. mode_sep
 end
 
@@ -63,7 +63,7 @@ statusline_modules.diagnostics = function()
     local clients = {}
     if #clients == 0 then
         return "%#StatusLineFile#   LSP %#StatusLineFileSep#"
-        .. separators.right .. " %#StatusLineEmptySpace# "
+            .. separators.right .. " %#StatusLineEmptySpace# "
     end
 
     local names = {}
@@ -74,19 +74,19 @@ statusline_modules.diagnostics = function()
     end
 
     return "%#StatusLineFile#   LSP (" .. table.concat(names, ", ") .. ")%#StatusLineFileSep#"
-    .. separators.right .. " %#StatusLineEmptySpace# "
+        .. separators.right .. " %#StatusLineEmptySpace# "
 end
 
 
 statusline_modules.file = function()
     return "%#StatusLineFile#  󰈚 %f " .. "%#StatusLineFileSep#"
-    .. separators.right .. "  %#StatusLineEmptySpace#"
+        .. separators.right .. "  %#StatusLineEmptySpace#"
 end
 
 local git_branch = require("user.utils").git_branch()
 statusline_modules.git = function()
     if git_branch then
-        return "%#StatusLineGit#   " .. git_branch .. "%#StatusLineEmptySpace# "
+        return "%#StatusLineGit# " .. git_branch .. "%#StatusLineEmptySpace# "
     end
     return "%#StatusLineEmptySpace#"
 end
@@ -100,7 +100,7 @@ end
 
 statusline_modules.cursor = function()
     return "%#StatusLineCursorSep#" .. separators.left ..
-    "%#StatusLineCursorIcon#  %#StatusLineCursor# %l:%c | %L (%o) "
+        "%#StatusLineCursorIcon#  %#StatusLineCursor# Line: %l/%L Column: %c "
 end
 
 -- Colors
@@ -108,10 +108,10 @@ vim.api.nvim_set_hl(0, "StatusLineMode", { fg = "#ff9e64", bg = "#1f2335", bold 
 vim.api.nvim_set_hl(0, "StatusLineModeSep", { fg = "#1f2335", bg = "#1f2335", bold = true })
 vim.api.nvim_set_hl(0, "StatusLineEmptySpace", { fg = "#2E3440", bg = "#2E3440", bold = true })
 
-vim.api.nvim_set_hl(0, "StatusLineGit", { fg = "#AAAAAA", bg = "#2E3440" , bold = true })
+vim.api.nvim_set_hl(0, "StatusLineGit", { fg = "#AAAAAA", bg = "#2E3440", bold = true })
 
-vim.api.nvim_set_hl(0, "StatusLineFile", { fg = "#AAAAAA", bg = "#303030" , bold = true })
-vim.api.nvim_set_hl(0, "StatusLineFileSep", { bg = "#2E3440", fg = "#303030" , bold = true })
+vim.api.nvim_set_hl(0, "StatusLineFile", { fg = "#AAAAAA", bg = "#303030", bold = true })
+vim.api.nvim_set_hl(0, "StatusLineFileSep", { bg = "#2E3440", fg = "#303030", bold = true })
 
 vim.api.nvim_set_hl(0, "StatusLineCursor", { fg = "#A3BE8C", bg = "#2E3440", bold = true })
 vim.api.nvim_set_hl(0, "StatusLineCursorSep", { fg = "#A3BE8C", bg = "#2E3440", bold = true })
@@ -145,7 +145,7 @@ vim.api.nvim_set_hl(0, "StatusLineSelectModeSep", { fg = "#5E81AC", bg = "#5E81A
 return function()
     local statusline = {}
     local order = {
-        "mode", "git", "%=", "%=", "cwd", "cursor"
+        "mode", "file", "git", "%=", "%=", "cwd", "cursor"
     }
 
     for _, component in ipairs(order) do

@@ -17,8 +17,6 @@ vim.keymap.set("", "<Space>", "<Nop>", opts("Space"))
 --   command_mode = "c",
 
 -- Normal --
-vim.keymap.set("n", "+", '<C-a>', opts("Increment number"))
-vim.keymap.set("n", "-", '<C-x>', opts("Decrement number"))
 vim.keymap.set("n", "<BS>", '"_dd', opts("Delete text without copying"))
 
 vim.keymap.set("n", "<Esc>", "<cmd>noh<CR>", { desc = "Clear highlights" })
@@ -45,10 +43,10 @@ vim.keymap.set("x", "<S-Down>", ":move '>+1<CR>gv-gv", opts("Move text down", tr
 
 -- Utilities
 local utils = require("user.utils")
-vim.keymap.set("n", "<leader>aa", utils.emily, { desc = "Appa, yip yip!!" })
-vim.keymap.set("n", "<leader>gd", utils.git_diff, { desc = "Git diff current file" })
+vim.keymap.set("n", "<leader>a", utils.emily, { desc = "Appa, yip yip!!" })
 
-vim.keymap.set("n", "<C-x>", utils.bclose, { desc = "Buffer close" })
+vim.keymap.set("n", "<leader>x", utils.bclose, { desc = "Buffer close" })
+vim.keymap.set("n", "<leader>q", ":%bd|e#<CR>", { desc = "Close all buffers", silent = true })
 vim.keymap.set("n", "<tab>", utils.bnext, { desc = "Buffer goto next" })
 vim.keymap.set("n", "<S-tab>", utils.bprevious, { desc = "Buffer goto prev" })
 
@@ -63,19 +61,6 @@ vim.api.nvim_create_autocmd('FileType', {
     pattern = 'qf',
     callback = function() vim.keymap.set( 'n', '<BS>', utils.qf_del_entry, opts("", true, 0)) end
 })
-
--- Cheatsheets
-vim.keymap.set('n', '<leader>hm', utils.macro_help, opts("Macro cheatsheet"))
-vim.keymap.set('n', '<leader>hk', utils.mark_help, opts("Marks cheatsheet"))
-vim.keymap.set('n', '<leader>hr', utils.reg_help, opts("Registers cheatsheet"))
-vim.keymap.set('n', '<leader>hd', utils.markdown_help, opts("Markdown cheatsheet"))
-
--- Wrapper
-vim.keymap.set('v', '(', function() utils.wrap_selection("(", ")") end, opts("Wrap ()"))
-vim.keymap.set('v', '[', function() utils.wrap_selection("[", "]") end, opts("Wrap []"))
-vim.keymap.set('v', '{', function() utils.wrap_selection("{", "}") end, opts("Wrap {}"))
-vim.keymap.set('v', '`', function() utils.wrap_selection("`", "`") end, opts("Wrap ``"))
-vim.keymap.set('v', "'", function() utils.wrap_selection("'", "'") end, opts("Wrap ''"))
 
 -- Git
 local gitsigns = require('gitsigns')
@@ -97,12 +82,13 @@ vim.keymap.set("n", "[c", function()
     end,
     { desc = "Toggle Deleted" }
 )
+vim.keymap.set("n", "<leader>gd", utils.git_diff, { desc = "Git diff current file" })
 vim.keymap.set('n', '<leader>gs', gitsigns.stage_hunk, { desc = "Stage Hunk" })
 vim.keymap.set('n', '<leader>gr', gitsigns.reset_hunk, { desc = "Reset Hunk" })
 vim.keymap.set('v', '<leader>gs', function() gitsigns.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { desc = "Stage Hunk" })
 vim.keymap.set('v', '<leader>gr', function() gitsigns.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { desc = "Reset Hunk" })
 vim.keymap.set('n', '<leader>gS', gitsigns.stage_buffer, { desc = "Stage Buffer" })
-vim.keymap.set('n', '<leader>gu', gitsigns.undo_stage_hunk, { desc = "Unod Stage Buffer" })
+vim.keymap.set('n', '<leader>gu', gitsigns.undo_stage_hunk, { desc = "Undo Stage Buffer" })
 vim.keymap.set('n', '<leader>gR', gitsigns.reset_buffer, { desc = "Reset Buffer" })
 vim.keymap.set('n', '<leader>gp', gitsigns.preview_hunk, { desc = "Preview Hunk" })
 vim.keymap.set('n', '<leader>gb', function() gitsigns.blame_line{full=true} end, { desc = "Blame Line" })
@@ -114,42 +100,6 @@ vim.keymap.set({'o', 'x'}, 'ih',  ':<C-U>Gitsigns select_hunk<CR>', { desc = "Se
 local manager = require("user.session_manager")
 vim.keymap.set('n', '<leader>ss', manager.save_session, opts("Save Session"))
 vim.keymap.set('n', '<leader>sw', manager.show_session_manager, opts("Show Session Manager"))
-
--- LSP
-local opts = { noremap = true, silent = true }
-vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-vim.keymap.set("n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-vim.keymap.set("n", "<leader>lo", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-vim.keymap.set("n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
-vim.keymap.set("n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
-vim.keymap.set("n", "<leader>/", "gcc", { desc = "Comment toggle", remap = true })
-vim.keymap.set("v", "<leader>/", "gc", { desc = "Comment toggle", remap = true })
-
-local M = {}
-
-M.lsp_keymaps = function(bufnr)
-    local opts = { noremap = true, silent = true }
-    local buf_keymap = vim.api.nvim_buf_set_keymap
-    buf_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-    buf_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-    buf_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-    buf_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-    buf_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-    buf_keymap(bufnr, "n", "gs", "<cmd>ClangdSwitchSourceHeader<CR>", opts)
-    buf_keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-    buf_keymap(bufnr, "n", "<leader>lc", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-    buf_keymap(bufnr, "n", "<leader>ll", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-    buf_keymap(bufnr, "n", "<leader>lo", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-    buf_keymap(bufnr, "n", "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-    buf_keymap(bufnr, "n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
-    buf_keymap(bufnr, "n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
-    vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
-end
 
 vim.keymap.set("n", "<leader>fm", "<cmd>FzfLua marks<CR>", { desc = "find marks" })
 vim.keymap.set("n", "<leader>fh", "<cmd>FzfLua help_tags<CR>", { desc = "help page" })

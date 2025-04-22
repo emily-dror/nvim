@@ -9,8 +9,8 @@ vim.opt.signcolumn = "yes"
 
 -- Autocomplete
 local opts = {silent = true, noremap = true, expr = true, replace_keycodes = false}
-vim.keymap.set("i", "<TAB>", 'coc#pum#visible() ? coc#pum#confirm() : "<TAB>"', opts)
-vim.keymap.set("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
+vim.keymap.set("i", "<TAB>", [[ coc#pum#visible() ? coc#pum#confirm() : "<TAB>" ]], opts)
+vim.keymap.set("i", "<CR>",  [[ coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
 
 -- Use <c-e> to trigger completion
 vim.keymap.set("i", "<C-e>", "coc#refresh()", {silent = true, expr = true})
@@ -24,7 +24,7 @@ vim.keymap.set("n", "gi", "<Plug>(coc-implementation)", {silent = true})
 vim.keymap.set("n", "gr", "<Plug>(coc-references)", {silent = true})
 
 -- Use K to show documentation in preview window
-function _G.show_docs()
+vim.keymap.set("n", "K", function ()
     local cw = vim.fn.expand('<cword>')
     if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
         vim.api.nvim_command('h ' .. cw)
@@ -33,8 +33,7 @@ function _G.show_docs()
     else
         vim.api.nvim_command('!' .. vim.o.keywordprg .. ' ' .. cw)
     end
-end
-vim.keymap.set("n", "K", '<CMD>lua _G.show_docs()<CR>', {silent = true})
+end, {silent = true})
 
 -- Highlight the symbol and its references on a CursorHold event(cursor is idle)
 vim.api.nvim_create_augroup("CocGroup", {})
@@ -45,11 +44,11 @@ vim.api.nvim_create_autocmd("CursorHold", {
 })
 
 -- Symbol renaming
-vim.keymap.set("n", "<leader>crn", "<Plug>(coc-rename)", {silent = true})
+vim.keymap.set("n", "<leader>lr", "<Plug>(coc-rename)", {silent = true})
 
 -- Formatting selected code
-vim.keymap.set("x", "<leader>cf", "<Plug>(coc-format-selected)", {silent = true})
-vim.keymap.set("n", "<leader>cf", "<Plug>(coc-format-selected)", {silent = true})
+vim.keymap.set("x", "<leader>lf", "<Plug>(coc-format-selected)", {silent = true})
+vim.keymap.set("n", "<leader>lf", "<Plug>(coc-format-selected)", {silent = true})
 
 -- Setup formatexpr specified filetype(s)
 vim.api.nvim_create_autocmd("FileType", {
@@ -69,19 +68,19 @@ vim.api.nvim_create_autocmd("User", {
 
 -- Apply codeAction to the selected region
 local opts = {silent = true, nowait = true}
-vim.keymap.set("x", "<leader>ccs", "<Plug>(coc-codeaction-selected)", opts)
-vim.keymap.set("n", "<leader>ccs", "<Plug>(coc-codeaction-selected)", opts)
-vim.keymap.set("n", "<leader>cac", "<Plug>(coc-codeaction-cursor)", opts)
-vim.keymap.set("n", "<leader>cas", "<Plug>(coc-codeaction-source)", opts)
-vim.keymap.set("n", "<leader>cq", "<Plug>(coc-fix-current)", opts)
+vim.keymap.set("x", "<leader>ls", "<Plug>(coc-codeaction-selected)", opts)
+vim.keymap.set("n", "<leader>ls", "<Plug>(coc-codeaction-selected)", opts)
+vim.keymap.set("n", "<leader>lc", "<Plug>(coc-codeaction-cursor)", opts)
+vim.keymap.set("n", "<leader>li", "<Plug>(coc-codeaction-source)", opts)
+vim.keymap.set("n", "<leader>la", "<Plug>(coc-fix-current)", opts)
 
 -- Remap keys for apply refactor code actions.
-vim.keymap.set("n", "<leader>cre", "<Plug>(coc-codeaction-refactor)", { silent = true })
-vim.keymap.set("x", "<leader>crf", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
-vim.keymap.set("n", "<leader>crf", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
+vim.keymap.set("n", "<leader>lr", "<Plug>(coc-codeaction-refactor)", { silent = true })
+-- vim.keymap.set("x", "<leader>lrs", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
+-- vim.keymap.set("n", "<leader>lrs", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
 
 -- Run the Code Lens actions on the current line
-vim.keymap.set("n", "<leader>cl", "<Plug>(coc-codelens-action)", opts)
+vim.keymap.set("n", "<leader>lla", "<Plug>(coc-codelens-action)", opts)
 
 
 -- Map function and class text objects
@@ -125,11 +124,11 @@ vim.api.nvim_create_user_command("OR", "call CocActionAsync('runCommand', 'edito
 -- code actions and coc stuff
 ---@diagnostic disable-next-line: redefined-local
 local opts = {silent = true, nowait = true}
-vim.keymap.set("n", "<space>cd", ":<C-u>CocList diagnostics<cr>", opts)
-vim.keymap.set("n", "<space>ce", ":<C-u>CocList extensions<cr>", opts)
-vim.keymap.set("n", "<space>cc", ":<C-u>CocList commands<cr>", opts)
-vim.keymap.set("n", "<space>co", ":<C-u>CocList outline<cr>", opts)
-vim.keymap.set("n", "<space>cs", ":<C-u>CocList -I symbols<cr>", opts)
-vim.keymap.set("n", "<space>cj", ":<C-u>CocNext<cr>", opts)
-vim.keymap.set("n", "<space>ck", ":<C-u>CocPrev<cr>", opts)
-vim.keymap.set("n", "<space>cp", ":<C-u>CocListResume<cr>", opts)
+vim.keymap.set("n", "<leader>lld", ":<C-u>CocList diagnostics<cr>", opts)
+vim.keymap.set("n", "<leader>lle", ":<C-u>CocList extensions<cr>", opts)
+vim.keymap.set("n", "<leader>llc", ":<C-u>CocList commands<cr>", opts)
+vim.keymap.set("n", "<leader>llo", ":<C-u>CocList outline<cr>", opts)
+vim.keymap.set("n", "<leader>lls", ":<C-u>CocList -I symbols<cr>", opts)
+vim.keymap.set("n", "<leader>llj", ":<C-u>CocNext<cr>", opts)
+vim.keymap.set("n", "<leader>llk", ":<C-u>CocPrev<cr>", opts)
+vim.keymap.set("n", "<leader>llp", ":<C-u>CocListResume<cr>", opts)

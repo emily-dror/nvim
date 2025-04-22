@@ -7,10 +7,10 @@
     ],
     "Lua.workspace.checkThirdParty": false,
     "python.pythonPath": "/usr/bin/python3",
-    "coc.preferences.formatOnSave": false,
+    "coc.preferences.formatOnSave": true,
     "inlayHint.enable": false,
     "inlayHint.display": true,
     "inlayHint.enableParameter": true,
-    "inlayHint.refreshOnInsertMode": true
+    "inlayHint.refreshOnInsertMode": true,
 }
 
