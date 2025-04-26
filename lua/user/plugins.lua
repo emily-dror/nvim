@@ -1,9 +1,12 @@
 require("ibl").setup()
+require('onedark').setup {
+    style = 'warmer'
+}
 require('onedark').load()
 require("barbecue").setup()
 require("bufferline").setup()
 require("which-key").setup({
-    triggers = {"<leader>"}
+    triggers = { "<leader>" }
 })
 require("nvim-autopairs").setup { map_cr = false }
 require('gitsigns').setup {

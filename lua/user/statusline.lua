@@ -92,7 +92,7 @@ statusline_modules.git = function()
 end
 
 local name = vim.uv.cwd()
-name = "%#StatusLineCwd#" .. " " .. (name:match "([^/\\]+)[/\\]*$" or name) .. " %* "
+name = "%#StatusLineCwd#" .. " " .. (name:match "([^/\\]+)[/\\]*$" or name) .. "  "
 statusline_modules.cwd = function()
     local icon = "%#StatusLineCwdIcon#" .. " 󰉋 "
     return (vim.o.columns > 85 and ("%#StatusLineCwdSep#" .. separators.left .. icon .. name)) or ""
@@ -106,30 +106,30 @@ end
 -- Colors
 vim.api.nvim_set_hl(0, "StatusLineMode", { fg = "#ff9e64", bg = "#1f2335", bold = true })
 vim.api.nvim_set_hl(0, "StatusLineModeSep", { fg = "#1f2335", bg = "#1f2335", bold = true })
-vim.api.nvim_set_hl(0, "StatusLineEmptySpace", { fg = "#2E3440", bg = "#2E3440", bold = true })
+vim.api.nvim_set_hl(0, "StatusLineEmptySpace", { fg = "#1E2430", bg = "#1E2430", bold = true })
 
-vim.api.nvim_set_hl(0, "StatusLineGit", { fg = "#AAAAAA", bg = "#2E3440", bold = true })
+vim.api.nvim_set_hl(0, "StatusLineGit", { fg = "#AAAAAA", bg = "#1E2430", bold = true })
 
-vim.api.nvim_set_hl(0, "StatusLineFile", { fg = "#AAAAAA", bg = "#303030", bold = true })
-vim.api.nvim_set_hl(0, "StatusLineFileSep", { bg = "#2E3440", fg = "#303030", bold = true })
+vim.api.nvim_set_hl(0, "StatusLineFile", { fg = "#AAAAAA", bg = "#202020", bold = true })
+vim.api.nvim_set_hl(0, "StatusLineFileSep", { bg = "#1E2430", fg = "#202020", bold = true })
 
-vim.api.nvim_set_hl(0, "StatusLineCursor", { fg = "#A3BE8C", bg = "#2E3440", bold = true })
-vim.api.nvim_set_hl(0, "StatusLineCursorSep", { fg = "#A3BE8C", bg = "#2E3440", bold = true })
-vim.api.nvim_set_hl(0, "StatusLineCursorIcon", { fg = "#2E3440", bg = "#A3BE8C", bold = true })
+vim.api.nvim_set_hl(0, "StatusLineCursor", { fg = "#A3BE8C", bg = "#1E2430", bold = true })
+vim.api.nvim_set_hl(0, "StatusLineCursorSep", { fg = "#A3BE8C", bg = "#1E2430", bold = true })
+vim.api.nvim_set_hl(0, "StatusLineCursorIcon", { fg = "#1E2430", bg = "#A3BE8C", bold = true })
 
-vim.api.nvim_set_hl(0, "StatusLineCwd", { fg = "#AAAAAA", bg = "#2E3440", bold = true })
-vim.api.nvim_set_hl(0, "StatusLineCwdSep", { fg = "#E06C75", bg = "#2E3440", bold = true })
-vim.api.nvim_set_hl(0, "StatusLineCwdIcon", { fg = "#2E3440", bg = "#E06C75", bold = true })
+vim.api.nvim_set_hl(0, "StatusLineCwd", { fg = "#AAAAAA", bg = "#1E2430", bold = true })
+vim.api.nvim_set_hl(0, "StatusLineCwdSep", { fg = "#E06C75", bg = "#1E2430", bold = true })
+vim.api.nvim_set_hl(0, "StatusLineCwdIcon", { fg = "#1E2430", bg = "#E06C75", bold = true })
 
-vim.api.nvim_set_hl(0, "StatusLineNormalMode", { fg = "#2E3440", bg = "#81A1C1" })
-vim.api.nvim_set_hl(0, "StatusLineInsertMode", { fg = "#2E3440", bg = "#B48EAD" })
-vim.api.nvim_set_hl(0, "StatusLineVisualMode", { fg = "#2E3440", bg = "#D08770" })
-vim.api.nvim_set_hl(0, "StatusLineTerminalMode", { fg = "#2E3440", bg = "#A3BE8C" })
-vim.api.nvim_set_hl(0, "StatusLineNTerminalMode", { fg = "#2E3440", bg = "#EBCB8B" })
-vim.api.nvim_set_hl(0, "StatusLineReplaceMode", { fg = "#2E3440", bg = "#88C0D0" })
-vim.api.nvim_set_hl(0, "StatusLineConfirmMode", { fg = "#2E3440", bg = "#5E81AC" })
-vim.api.nvim_set_hl(0, "StatusLineCommandMode", { fg = "#2E3440", bg = "#A3BE8C" })
-vim.api.nvim_set_hl(0, "StatusLineSelectMode", { fg = "#2E3440", bg = "#5E81AC" })
+vim.api.nvim_set_hl(0, "StatusLineNormalMode", { fg = "#1E2430", bg = "#81A1C1" })
+vim.api.nvim_set_hl(0, "StatusLineInsertMode", { fg = "#1E2430", bg = "#B48EAD" })
+vim.api.nvim_set_hl(0, "StatusLineVisualMode", { fg = "#1E2430", bg = "#D08770" })
+vim.api.nvim_set_hl(0, "StatusLineTerminalMode", { fg = "#1E2430", bg = "#A3BE8C" })
+vim.api.nvim_set_hl(0, "StatusLineNTerminalMode", { fg = "#1E2430", bg = "#EBCB8B" })
+vim.api.nvim_set_hl(0, "StatusLineReplaceMode", { fg = "#1E2430", bg = "#88C0D0" })
+vim.api.nvim_set_hl(0, "StatusLineConfirmMode", { fg = "#1E2430", bg = "#5E81AC" })
+vim.api.nvim_set_hl(0, "StatusLineCommandMode", { fg = "#1E2430", bg = "#A3BE8C" })
+vim.api.nvim_set_hl(0, "StatusLineSelectMode", { fg = "#1E2430", bg = "#5E81AC" })
 
 vim.api.nvim_set_hl(0, "StatusLineNormalModeSep", { fg = "#81A1C1", bg = "#81A1C1" })
 vim.api.nvim_set_hl(0, "StatusLineInsertModeSep", { fg = "#B48EAD", bg = "#B48EAD" })
