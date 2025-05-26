@@ -52,3 +52,4 @@ vim.o.statusline = "%!v:lua.require('user.statusline')()"
 vim.cmd [[
     au BufWritePre * :%s/\s\+$//e
 ]]
+

@@ -1,4 +1,8 @@
 {
+    "clangd.arguments": [
+        "--log=verbose",
+        "--header-insertion=never",
+    ],
     "Lua.runtime.version": "LuaJIT",
     "Lua.diagnostics.globals": ["vim"],
     "Lua.workspace.library": [
@@ -12,5 +16,9 @@
     "inlayHint.display": true,
     "inlayHint.enableParameter": true,
     "inlayHint.refreshOnInsertMode": true,
+    "list.enableFloat": true,
+    "list.floatTop": true,
+    "list.floatWidth": 80,
+    "list.floatHeight": 20
 }
 

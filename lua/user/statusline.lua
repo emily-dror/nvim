@@ -91,9 +91,9 @@ statusline_modules.git = function()
     return "%#StatusLineEmptySpace#"
 end
 
-local name = vim.uv.cwd()
-name = "%#StatusLineCwd#" .. " " .. (name:match "([^/\\]+)[/\\]*$" or name) .. "  "
 statusline_modules.cwd = function()
+    local name = vim.uv.cwd()
+    name = "%#StatusLineCwd#" .. " " .. (name:match "([^/\\]+)[/\\]*$" or name) .. "  "
     local icon = "%#StatusLineCwdIcon#" .. " 󰉋 "
     return (vim.o.columns > 85 and ("%#StatusLineCwdSep#" .. separators.left .. icon .. name)) or ""
 end

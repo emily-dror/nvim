@@ -29,4 +29,17 @@ require('fzf-lua').setup({
             ["ctrl-q"] = "select-all+accept",
         },
     },
+
+    buffers = {
+        fzf_opts = {
+            ['--no-preview'] = '', -- disable preview window
+        },
+    },
+
+    winopts = {
+        preview = {
+            layout = 'horizontal',  -- 'vertical' (default) or 'horizontal'
+            horizontal = 'up:50%',  -- adjust split size (e.g., 50% height)
+        },
+    },
 })

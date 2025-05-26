@@ -1,4 +1,4 @@
-local sdk_remote = "edror@ntn-ads-edror:/auto/cag-sw/users/edror/sdk0/"
+local sdk_remote = "edror@ntn-ads-edror:/auto/cag-sw/users/edror/sdk1/"
 
 local function sync_file()
     local path = vim.fn.expand("%")
@@ -47,6 +47,4 @@ local function onedark_shall_prevail()
 end
 
 
-vim.keymap.set("n", "<leader>b", darkness_shall_prevail, { desc = "Darkness Shall Prevail", silent = true })
-vim.keymap.set("n", "<leader>o", onedark_shall_prevail, { desc = "OneDark Shall Prevail", silent = true })
 darkness_shall_prevail()

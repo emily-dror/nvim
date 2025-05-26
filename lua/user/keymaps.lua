@@ -105,7 +105,7 @@ vim.keymap.set("n", "<leader>fm", "<cmd>FzfLua marks<CR>", { desc = "find marks"
 vim.keymap.set("n", "<leader>fh", "<cmd>FzfLua help_tags<CR>", { desc = "help page" })
 vim.keymap.set("n", "<leader>fw", "<cmd>FzfLua live_grep<CR>", { desc = "live grep" })
 vim.keymap.set("n", "<leader>fr", "<cmd>FzfLua resume<CR>", { desc = "resume search" })
-vim.keymap.set("n", "<leader>fb", "<cmd>FzfLua buffers<CR>", { desc = "find buffers" })
+vim.keymap.set("n", "<leader>b", "<cmd>FzfLua buffers<CR>", { desc = "find buffers" })
 vim.keymap.set("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "find files" })
 vim.keymap.set("n", "<leader>fo", "<cmd>FzfLua oldfiles<CR>", { desc = "find oldfiles" })
 
